@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright by Suspended Team.
 
 #include "Ragrarok.h"
 #include "Modules/ModuleManager.h"
