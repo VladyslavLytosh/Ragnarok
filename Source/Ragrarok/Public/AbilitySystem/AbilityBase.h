@@ -9,7 +9,7 @@
 #include "AbilityBase.generated.h"
 
 /**
- * 
+ * Base ability class
  */
 UCLASS(Abstract,BlueprintType,Blueprintable)
 class RAGRAROK_API UAbilityBase : public UObject
@@ -33,16 +33,10 @@ public:
 	virtual void OnAbilityRemoved();
 	bool IsAbilityActive() const {return bIsAbilityActive;}
 
-	
+	UFUNCTION(BlueprintPure)
 	TEnumAsByte<EAbilityActivationPolicy> GetAbilityActivationPolicy() const {return AbilityActivationPolicy;}
-protected:
-	virtual void ActivateAbility(const FAbilityInfo& ActivationInfo);
-	UFUNCTION(BlueprintImplementableEvent)
-	void K2_ActivateAbility(const FAbilityInfo& ActivationInfo);
 	
-	UFUNCTION(BlueprintCallable)
-	virtual void EndAbility();
-
+protected:
 	UPROPERTY(EditDefaultsOnly,Category="Tags")
 	FGameplayTagContainer ActivationBlockedTags;
 
@@ -51,8 +45,28 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,Category="Input")
 	TEnumAsByte<EAbilityActivationPolicy> AbilityActivationPolicy;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Cooldown")
+	TEnumAsByte<EAbilityCooldownType> AbilityCooldownType;
+	UPROPERTY(EditDefaultsOnly, Category = "Cooldown",meta=(EditCondition="AbilityCooldownType != EAbilityCooldownType::None"))
+	float CooldownRate;
+	
+	virtual void ActivateAbility(const FAbilityInfo& ActivationInfo);
+	UFUNCTION(BlueprintImplementableEvent)
+	void K2_ActivateAbility(const FAbilityInfo& ActivationInfo);
+	
+	UFUNCTION(BlueprintCallable)
+	virtual void EndAbility();
+
+	UFUNCTION()
+	virtual void OnCooldownStarted();
+	UFUNCTION()
+	virtual void OnCooldownEnded();
+
 private:
 	FAbilityInfo AbilityInfo;
 	
 	bool bIsAbilityActive;
+
+	FTimerHandle CooldownTimerHandle;
 };

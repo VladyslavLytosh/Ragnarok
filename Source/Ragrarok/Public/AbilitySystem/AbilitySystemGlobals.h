@@ -43,3 +43,16 @@ enum class EAbilityActivationPolicy : uint8
 	// Continually try to activate the ability while the input is active.
 	WhileInputActive,
 };
+
+UENUM(BlueprintType)
+enum class EAbilityCooldownType : uint8
+{
+	// Do not apply cooldown
+	None,
+	
+	// Apply cooldown when ability ends
+	WhenAbilityEnd,
+	
+	// Apply cooldown when ability activates
+	WhenAbilityActivated
+};
