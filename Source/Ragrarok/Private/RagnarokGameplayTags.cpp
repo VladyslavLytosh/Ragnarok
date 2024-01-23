@@ -10,6 +10,8 @@ FRagnarokGameplayTags FRagnarokGameplayTags::GameplayTags;
 void FRagnarokGameplayTags::AddTags()
 {
 	AddTag(InputTag_Ability_ChangeClass, "InputTag.Ability.ChangeClass", "Change Class input.");
+	AddTag(InputTag_Ability_Dash, "InputTag.Ability.Dash", "Dash ability input.");
+	AddTag(InputTag_Ability_Melee, "InputTag.Ability.Melee", "Melee ability input.");
 }
 
 void FRagnarokGameplayTags::AddTag(FGameplayTag& OutTag, const ANSICHAR* TagName, const ANSICHAR* TagComment)

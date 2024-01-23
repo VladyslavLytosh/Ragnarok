@@ -11,9 +11,11 @@ struct FRagnarokGameplayTags : public FGameplayTagNativeAdder
 	static const FRagnarokGameplayTags& Get() { return GameplayTags; }
 	
 	static FGameplayTag FindTagByString(FString TagString, bool bMatchPartialString = false);
-	
+	/*InputTags*/
 	FGameplayTag InputTag_Ability_ChangeClass;
-	
+	FGameplayTag InputTag_Ability_Dash;
+	FGameplayTag InputTag_Ability_Melee;
+
 protected:
 	virtual void AddTags() override;
 	
