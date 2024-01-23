@@ -37,6 +37,10 @@ public:
 	TEnumAsByte<EAbilityActivationPolicy> GetAbilityActivationPolicy() const {return AbilityActivationPolicy;}
 	
 protected:
+	//applies when ability activates
+	UPROPERTY(EditDefaultsOnly,Category="Tags")
+	FGameplayTagContainer AbilityTags;
+	
 	UPROPERTY(EditDefaultsOnly,Category="Tags")
 	FGameplayTagContainer ActivationBlockedTags;
 
@@ -64,6 +68,9 @@ protected:
 	virtual void OnCooldownEnded();
 
 private:
+	void AddAbilityTags(UAbilitySystemComponent* AbilitySystemComponent);
+	void RemoveAbilityTags(UAbilitySystemComponent* AbilitySystemComponent);
+	
 	FAbilityInfo AbilityInfo;
 	
 	bool bIsAbilityActive;
