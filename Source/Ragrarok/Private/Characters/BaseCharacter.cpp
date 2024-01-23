@@ -7,6 +7,7 @@
 #include "AbilitySystem/AbilitySystemComponent.h"
 #include "Animations/RagnarokAnimInstance.h"
 #include "Characters/CharacterClassComponent.h"
+#include "Characters/HealthComponent.h"
 #include "Components/BoxComponent.h"
 #include "Input/RagnarokInputComponent.h"
 
@@ -66,4 +67,15 @@ const TArray<TSubclassOf<UCharacterClass>>& ABaseCharacter::GetAvailableCharacte
 void ABaseCharacter::SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass)
 {
 	CharacterClassComponent->SetCurrentCharacterClass(InCurrentCharacterClass, this);
+}
+
+float ABaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	if (UHealthComponent* HealthComponent = FindComponentByClass<UHealthComponent>())
+	{
+		UE_LOG(LogTemp,Warning,TEXT("Character: [%s] recive [%f] damage"), *GetName(),DamageAmount);
+		HealthComponent->ReduceHealth(DamageAmount);
+	}
+	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }

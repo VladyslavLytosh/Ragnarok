@@ -38,7 +38,8 @@ public:
 	const TArray<TSubclassOf<UCharacterClass>>& GetAvailableCharacterClasses() const;
 
 	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass);
-	
+
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
