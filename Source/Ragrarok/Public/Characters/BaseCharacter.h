@@ -7,6 +7,7 @@
 #include "PaperZDCharacter.h"
 #include "BaseCharacter.generated.h"
 
+class UDeathComponent;
 class URagnarokAnimInstance;
 class UBoxComponent;
 class UCharacterClassComponent;
@@ -40,6 +41,7 @@ public:
 	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass);
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -47,12 +49,15 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Character Class")
 	TObjectPtr<UCharacterClassComponent> CharacterClassComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Input")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components|Input")
 	TObjectPtr<URagnarokInputComponent> RagnarokInputComponent;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySet> DefaultAbilitySet;
 
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "HitBox")
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
 	TObjectPtr<UBoxComponent> HitBoxComponent;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UDeathComponent> DeathComponent;
 };

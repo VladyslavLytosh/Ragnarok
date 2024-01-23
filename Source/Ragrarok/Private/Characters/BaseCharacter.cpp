@@ -7,6 +7,7 @@
 #include "AbilitySystem/AbilitySystemComponent.h"
 #include "Animations/RagnarokAnimInstance.h"
 #include "Characters/CharacterClassComponent.h"
+#include "Characters/DeathComponent.h"
 #include "Characters/HealthComponent.h"
 #include "Components/BoxComponent.h"
 #include "Input/RagnarokInputComponent.h"
@@ -21,6 +22,7 @@ ABaseCharacter::ABaseCharacter()
 	HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBoxComponent"));
 
 	HitBoxComponent->SetupAttachment(GetSprite());
+	DeathComponent = CreateDefaultSubobject<UDeathComponent>(TEXT("DeathComponent"));
 }
 
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
@@ -76,6 +78,11 @@ float ABaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageE
 	{
 		UE_LOG(LogTemp,Warning,TEXT("Character: [%s] recive [%f] damage"), *GetName(),DamageAmount);
 		HealthComponent->ReduceHealth(DamageAmount);
+		if (HealthComponent->GetIsOutOfHealth())
+		{
+			//DeathComponent->SetDeathAnimation(); // TODO : Set animation
+			DeathComponent->OnDeathStarted();
+		}
 	}
 	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }
