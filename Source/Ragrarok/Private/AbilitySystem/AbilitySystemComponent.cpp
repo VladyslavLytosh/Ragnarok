@@ -11,6 +11,12 @@ void UAbilitySystemComponent::AddGameplayTag(FGameplayTag GameplayTag)
 	AbilityTagsContainer.AddTag(GameplayTag);
 }
 
+void UAbilitySystemComponent::RemoveGameplayTags(const FGameplayTagContainer& GameplayTagContainer)
+{
+	AbilityTagsContainer.RemoveTags(GameplayTagContainer);
+}
+
+
 bool UAbilitySystemComponent::HasTag(const FGameplayTag& GameplayTag) const
 {
 	return AbilityTagsContainer.HasTag(GameplayTag);

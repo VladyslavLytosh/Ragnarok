@@ -52,6 +52,7 @@ bool UAbilityBase::CanActivateAbility(const FAbilityInfo& ActivationInfo)
 void UAbilityBase::EndAbility()
 {
 	bIsAbilityActive = false;
+	RemoveAbilityTags(GetCurrentAbilityInfo().AbilitySystemComponent);
 	if (AbilityCooldownType == EAbilityCooldownType::WhenAbilityEnd)
 	{
 		if (GetWorld()->GetTimerManager().TimerExists(CooldownTimerHandle))
@@ -71,6 +72,23 @@ void UAbilityBase::OnCooldownStarted()
 
 void UAbilityBase::OnCooldownEnded()
 {
+}
+
+void UAbilityBase::AddAbilityTags(UAbilitySystemComponent* AbilitySystemComponent)
+{
+	if (!AbilitySystemComponent) return;
+	
+	for (const FGameplayTag& Tag : AbilityTags)
+	{
+		AbilitySystemComponent->AddGameplayTag(Tag);
+	}
+}
+
+void UAbilityBase::RemoveAbilityTags(UAbilitySystemComponent* AbilitySystemComponent)
+{
+	if (!AbilitySystemComponent || AbilityTags.Num() <= 0) return;
+
+	AbilitySystemComponent->RemoveGameplayTags(AbilityTags);
 }
 
 void UAbilityBase::OnAbilityRemoved()

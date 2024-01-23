@@ -23,6 +23,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AddGameplayTag(FGameplayTag GameplayTag);
+	UFUNCTION(BlueprintCallable)
+	void RemoveGameplayTags(const FGameplayTagContainer& GameplayTagContainer);
+	
 	UFUNCTION(BlueprintPure)
 	bool HasTag(const FGameplayTag& GameplayTag) const;
 
