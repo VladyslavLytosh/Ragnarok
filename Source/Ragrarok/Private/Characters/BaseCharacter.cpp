@@ -11,6 +11,7 @@
 #include "Characters/HealthComponent.h"
 #include "Components/BoxComponent.h"
 #include "Input/RagnarokInputComponent.h"
+#include "Weapons/BaseWeaponInstance.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -69,6 +70,11 @@ const TArray<TSubclassOf<UCharacterClass>>& ABaseCharacter::GetAvailableCharacte
 void ABaseCharacter::SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass)
 {
 	CharacterClassComponent->SetCurrentCharacterClass(InCurrentCharacterClass, this);
+}
+
+void ABaseCharacter::SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass)
+{
+	CurrentEquippedWeapon = NewObject<UBaseWeaponInstance>(this, CurrentEquippedWeaponClass);
 }
 
 float ABaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,

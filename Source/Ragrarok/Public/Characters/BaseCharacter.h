@@ -8,6 +8,7 @@
 #include "BaseCharacter.generated.h"
 
 class UDeathComponent;
+class UBaseWeaponInstance;
 class URagnarokAnimInstance;
 class UBoxComponent;
 class UCharacterClassComponent;
@@ -32,13 +33,18 @@ public:
 	UFUNCTION(BlueprintPure)
 	UCharacterClass* GetCurrentCharacterClass() const;
 	UFUNCTION(BlueprintPure)
-	UBoxComponent* GetHitBoxComponent() const {return HitBoxComponent;}
+	UBoxComponent* GetHitBoxComponent() const { return HitBoxComponent; }
+	
 	UFUNCTION(BlueprintPure)
 	URagnarokAnimInstance* GetRagnarokAnimInstance() const;
 	
 	const TArray<TSubclassOf<UCharacterClass>>& GetAvailableCharacterClasses() const;
 
 	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass);
+	
+	void SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass);
+
+	UBaseWeaponInstance* GetCurrentEquippedWeapon() const { return CurrentEquippedWeapon; }
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
@@ -54,6 +60,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySet> DefaultAbilitySet;
+	
+	UPROPERTY()
+	TObjectPtr<UBaseWeaponInstance> CurrentEquippedWeapon;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
 	TObjectPtr<UBoxComponent> HitBoxComponent;

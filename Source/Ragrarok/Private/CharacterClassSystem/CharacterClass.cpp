@@ -8,8 +8,9 @@
 #include "PaperZDAnimationComponent.h"
 #include "PaperZDAnimInstance.h"
 #include "Characters/BaseCharacter.h"
+#include "Weapons/BaseWeaponInstance.h"
 
-void UCharacterClass::OnClassChanged(const ABaseCharacter* Character)
+void UCharacterClass::OnClassChanged(ABaseCharacter* Character)
 {
 	if (!Character)
 	{
@@ -22,5 +23,9 @@ void UCharacterClass::OnClassChanged(const ABaseCharacter* Character)
 	{
 		AbilitySystemComponent->GiveToAbilitySystem(AbilitySet->AbilitiesToGrant);
 		PaperZdAnimationComponent->SetAnimInstanceClass(AnimInstanceClass);
+		if (CharacterWeaponClass)
+		{
+			Character->SetCurrentEquippedWeapon(CharacterWeaponClass);
+		}
 	}
 }
