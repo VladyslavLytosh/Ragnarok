@@ -7,12 +7,9 @@
 #include "PaperZDCharacter.h"
 #include "BaseCharacter.generated.h"
 
-<<<<<<< HEAD
 class UBaseWeaponInstance;
-=======
 class URagnarokAnimInstance;
 class UBoxComponent;
->>>>>>> 1369503f9bdac708c6373442bcddf217b72e2e07
 class UCharacterClassComponent;
 class UCharacterClass;
 class UAbilitySet;
@@ -35,7 +32,8 @@ public:
 	UFUNCTION(BlueprintPure)
 	UCharacterClass* GetCurrentCharacterClass() const;
 	UFUNCTION(BlueprintPure)
-	UBoxComponent* GetHitBoxComponent() const {return HitBoxComponent;}
+	UBoxComponent* GetHitBoxComponent() const { return HitBoxComponent; }
+	
 	UFUNCTION(BlueprintPure)
 	URagnarokAnimInstance* GetRagnarokAnimInstance() const;
 	
