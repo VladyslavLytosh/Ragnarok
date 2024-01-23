@@ -26,6 +26,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
 	URagnarokInputConfig* InputConfig;
+	
 private:
 	template<class UserClass, typename PressedFuncType, typename ReleasedFuncType>
 void BindAbilityActions(UEnhancedInputComponent* PlayerInputComponent,UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, TArray<uint32>& BindHandles);

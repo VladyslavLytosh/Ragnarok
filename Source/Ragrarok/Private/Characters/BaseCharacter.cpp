@@ -4,6 +4,7 @@
 
 #include "AbilitySystem/AbilitySet.h"
 #include "AbilitySystem/AbilitySystemComponent.h"
+#include "Characters/CharacterClassComponent.h"
 #include "Input/RagnarokInputComponent.h"
 
 ABaseCharacter::ABaseCharacter()
@@ -12,6 +13,7 @@ ABaseCharacter::ABaseCharacter()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	RagnarokInputComponent = CreateDefaultSubobject<URagnarokInputComponent>(TEXT("InputComponent"));
+	CharacterClassComponent = CreateDefaultSubobject<UCharacterClassComponent>(TEXT("CharacterClassComponent"));
 }
 
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
@@ -33,8 +35,24 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	if (DefaultAbilitySetClass)
+	
+	if (DefaultAbilitySet)
 	{
-		AbilitySystemComponent->GiveToAbilitySystem(DefaultAbilitySetClass.GetDefaultObject()->AbilitiesToGrant);
+		AbilitySystemComponent->GiveToAbilitySystem(DefaultAbilitySet->AbilitiesToGrant);
 	}
+}
+
+UCharacterClass* ABaseCharacter::GetCurrentCharacterClass() const
+{
+	return CharacterClassComponent->GetCurrentCharacterClass();
+}
+
+const TArray<TSubclassOf<UCharacterClass>>& ABaseCharacter::GetAvailableCharacterClasses() const
+{
+	return CharacterClassComponent->GetAvailableCharacterClasses();
+}
+
+void ABaseCharacter::SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass)
+{
+	CharacterClassComponent->SetCurrentCharacterClass(InCurrentCharacterClass, this);
 }

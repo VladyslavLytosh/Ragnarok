@@ -10,7 +10,7 @@ public class Ragrarok : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput"});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "ModularGameplay" , "GameplayTags"});
+		PrivateDependencyModuleNames.AddRange(new string[] { "ModularGameplay" , "GameplayTags", "PaperZD", "Paper2D"});
 
         
 		// Uncomment if you are using Slate UI

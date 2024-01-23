@@ -11,7 +11,7 @@
  * Ability set class. Using as data asset for giving and removing abilities
  */
 UCLASS(BlueprintType,Blueprintable)
-class RAGRAROK_API UAbilitySet : public UObject
+class RAGRAROK_API UAbilitySet : public UDataAsset
 {
 	GENERATED_BODY()
 	

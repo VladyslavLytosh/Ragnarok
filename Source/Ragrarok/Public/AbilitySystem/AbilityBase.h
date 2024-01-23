@@ -48,7 +48,7 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Cooldown")
 	TEnumAsByte<EAbilityCooldownType> AbilityCooldownType;
-	UPROPERTY(EditDefaultsOnly, Category = "Cooldown",meta=(EditCondition="AbilityCooldownType != EAbilityCooldownType::None"))
+	UPROPERTY(EditDefaultsOnly, Category = "Cooldown",meta=(Units = "s", EditCondition="AbilityCooldownType != EAbilityCooldownType::None"))
 	float CooldownRate;
 	
 	virtual void ActivateAbility(const FAbilityInfo& ActivationInfo);

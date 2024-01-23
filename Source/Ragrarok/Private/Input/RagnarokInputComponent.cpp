@@ -4,7 +4,10 @@
 #include "Input/RagnarokInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "AbilitySystem/AbilitySystemComponent.h"
+#include "RagnarokGameplayTags.h"
 #include "AbilitySystem/AbilitySystemInterface.h"
+#include "CharacterClassSystem/CharacterClass.h"
+#include "Characters/BaseCharacter.h"
 
 void URagnarokInputComponent::InitializePlayerInput(UEnhancedInputComponent* PlayerInputComponent)
 {
@@ -14,14 +17,22 @@ void URagnarokInputComponent::InitializePlayerInput(UEnhancedInputComponent* Pla
 	}
 	
 	const APawn* Pawn = GetPawn<APawn>();
-	if (!Pawn) return;
-
+	if (!Pawn)
+	{
+		return;
+	}
 	const APlayerController* PlayerController = Cast<APlayerController>(Pawn->GetController());
-	if (!Pawn) return;
-
+	if (!Pawn)
+	{
+		return;
+	}
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
-	if (!Subsystem) return;
-
+	if (!Subsystem)
+	{
+		return;
+	}
+	const FRagnarokGameplayTags& GameplayTags = FRagnarokGameplayTags::Get();
+	
 	Subsystem->ClearAllMappings();
 	Subsystem->AddMappingContext(MappingContext, 0);
 
