@@ -18,6 +18,8 @@ class RAGRAROK_API UCharacterClass : public UObject
 	
 public:
 	void OnClassChanged(const ABaseCharacter* Character);
+
+	UAbilitySet* GetAbilitySet() const { return AbilitySet; };
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities")

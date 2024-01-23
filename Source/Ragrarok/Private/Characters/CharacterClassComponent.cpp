@@ -7,6 +7,8 @@
 #include "PaperFlipbookActor.h"
 #include "PaperFlipbookComponent.h"
 #include "PaperFlipbook.h"
+#include "AbilitySystem/AbilitySet.h"
+#include "AbilitySystem/AbilitySystemComponent.h"
 #include "Subsystems/SpriteEffectsManagerSubsystem.h"
 
 UCharacterClassComponent::UCharacterClassComponent(const FObjectInitializer& ObjectInitializer)
@@ -32,6 +34,7 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 {
 	if (InCurrentCharacterClass)
 	{
+		RemovePreviousClassAbilities(Character);
 		CurrentCharacterClass = InCurrentCharacterClass;
 		CurrentCharacterClass->OnClassChanged(Character);
 
@@ -43,6 +46,18 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 			SpawnTransform.SetScale3D(EffectScale);
 			SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(ChangeClassEffectFlipbook,
 			                                                           SpawnTransform, GetOwner(), GetOwner());
+		}
+	}
+}
+
+void UCharacterClassComponent::RemovePreviousClassAbilities(const ABaseCharacter* Character)
+{
+	UAbilitySystemComponent* AbilitySystemComponent = Character->GetAbilitySystemComponent();
+	if (CurrentCharacterClass)
+	{
+		if (const UAbilitySet* AbilitySet = CurrentCharacterClass->GetAbilitySet())
+		{
+			AbilitySystemComponent->TakeFromAbilitySystem(AbilitySet->AbilitiesToGrant);
 		}
 	}
 }

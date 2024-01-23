@@ -20,13 +20,6 @@ void UCharacterClass::OnClassChanged(const ABaseCharacter* Character)
 	
 	if (AbilitySet && AnimInstanceClass && AbilitySystemComponent && PaperZdAnimationComponent)
 	{
-		if (const UCharacterClass* CurrentCharacterClass = Character->GetCurrentCharacterClass())
-		{
-			if (!CurrentCharacterClass->AbilitySet)
-			{
-				AbilitySystemComponent->TakeFromAbilitySystem(CurrentCharacterClass->AbilitySet->AbilitiesToGrant);
-			}
-		}
 		AbilitySystemComponent->GiveToAbilitySystem(AbilitySet->AbilitiesToGrant);
 		PaperZdAnimationComponent->SetAnimInstanceClass(AnimInstanceClass);
 	}

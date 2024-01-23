@@ -39,4 +39,7 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "ChangeClass Effect")
 	FVector EffectScale = FVector(3,3,3);
+
+private:
+	void RemovePreviousClassAbilities(const ABaseCharacter* Character);
 };
