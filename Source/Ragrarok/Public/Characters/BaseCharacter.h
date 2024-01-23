@@ -7,6 +7,8 @@
 #include "PaperZDCharacter.h"
 #include "BaseCharacter.generated.h"
 
+class URagnarokAnimInstance;
+class UBoxComponent;
 class UCharacterClassComponent;
 class UCharacterClass;
 class UAbilitySet;
@@ -25,8 +27,13 @@ public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 	virtual void BeginPlay() override;
-
+	
+	UFUNCTION(BlueprintPure)
 	UCharacterClass* GetCurrentCharacterClass() const;
+	UFUNCTION(BlueprintPure)
+	UBoxComponent* GetHitBoxComponent() const {return HitBoxComponent;}
+	UFUNCTION(BlueprintPure)
+	URagnarokAnimInstance* GetRagnarokAnimInstance() const;
 	
 	const TArray<TSubclassOf<UCharacterClass>>& GetAvailableCharacterClasses() const;
 
@@ -42,6 +49,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Input")
 	TObjectPtr<URagnarokInputComponent> RagnarokInputComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category="AbilitySystem")
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySet> DefaultAbilitySet;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "HitBox")
+	TObjectPtr<UBoxComponent> HitBoxComponent;
 };

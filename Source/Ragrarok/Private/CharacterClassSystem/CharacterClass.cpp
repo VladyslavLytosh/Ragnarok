@@ -17,7 +17,7 @@ void UCharacterClass::OnClassChanged(const ABaseCharacter* Character)
 	}
 	UAbilitySystemComponent* AbilitySystemComponent = Character->GetAbilitySystemComponent();
 	UPaperZDAnimationComponent* PaperZdAnimationComponent = Character->GetAnimationComponent();
-	
+		
 	if (AbilitySet && AnimInstanceClass && AbilitySystemComponent && PaperZdAnimationComponent)
 	{
 		AbilitySystemComponent->GiveToAbilitySystem(AbilitySet->AbilitiesToGrant);

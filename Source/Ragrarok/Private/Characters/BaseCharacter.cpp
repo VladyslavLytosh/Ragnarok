@@ -2,9 +2,12 @@
 
 #include "Characters/BaseCharacter.h"
 
+#include "PaperFlipbookComponent.h"
 #include "AbilitySystem/AbilitySet.h"
 #include "AbilitySystem/AbilitySystemComponent.h"
+#include "Animations/RagnarokAnimInstance.h"
 #include "Characters/CharacterClassComponent.h"
+#include "Components/BoxComponent.h"
 #include "Input/RagnarokInputComponent.h"
 
 ABaseCharacter::ABaseCharacter()
@@ -14,6 +17,9 @@ ABaseCharacter::ABaseCharacter()
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	RagnarokInputComponent = CreateDefaultSubobject<URagnarokInputComponent>(TEXT("InputComponent"));
 	CharacterClassComponent = CreateDefaultSubobject<UCharacterClassComponent>(TEXT("CharacterClassComponent"));
+	HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBoxComponent"));
+
+	HitBoxComponent->SetupAttachment(GetSprite());
 }
 
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
@@ -45,6 +51,11 @@ void ABaseCharacter::BeginPlay()
 UCharacterClass* ABaseCharacter::GetCurrentCharacterClass() const
 {
 	return CharacterClassComponent->GetCurrentCharacterClass();
+}
+
+URagnarokAnimInstance* ABaseCharacter::GetRagnarokAnimInstance() const
+{
+	return Cast<URagnarokAnimInstance>(GetAnimInstance());
 }
 
 const TArray<TSubclassOf<UCharacterClass>>& ABaseCharacter::GetAvailableCharacterClasses() const
