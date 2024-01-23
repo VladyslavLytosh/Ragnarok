@@ -17,7 +17,7 @@ class RAGRAROK_API UCharacterClass : public UObject
 	GENERATED_BODY()
 	
 public:
-	void OnClassChanged(const ABaseCharacter* Character);
+	void OnClassChanged(ABaseCharacter* Character);
 
 	UAbilitySet* GetAbilitySet() const { return AbilitySet; };
 	
@@ -27,5 +27,7 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities")
 	TSubclassOf<UPaperZDAnimInstance> AnimInstanceClass;
-
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities")
+	TSubclassOf<UBaseWeaponInstance> CharacterWeaponClass;
 };

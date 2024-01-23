@@ -7,6 +7,7 @@
 #include "PaperZDCharacter.h"
 #include "BaseCharacter.generated.h"
 
+class UBaseWeaponInstance;
 class UCharacterClassComponent;
 class UCharacterClass;
 class UAbilitySet;
@@ -31,6 +32,10 @@ public:
 	const TArray<TSubclassOf<UCharacterClass>>& GetAvailableCharacterClasses() const;
 
 	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass);
+
+	void SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass);
+
+	UBaseWeaponInstance* GetCurrentEquippedWeapon() const { return CurrentEquippedWeapon; }
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
@@ -44,4 +49,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySet> DefaultAbilitySet;
+
+	UPROPERTY()
+	TObjectPtr<UBaseWeaponInstance> CurrentEquippedWeapon;
 };

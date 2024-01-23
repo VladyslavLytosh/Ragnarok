@@ -30,7 +30,7 @@ void UCharacterClassComponent::BeginPlay()
 	}
 }
  
-void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass, const ABaseCharacter* Character)
+void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass, ABaseCharacter* Character)
 {
 	if (InCurrentCharacterClass)
 	{

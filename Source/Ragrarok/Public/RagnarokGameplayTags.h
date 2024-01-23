@@ -15,6 +15,7 @@ struct FRagnarokGameplayTags : public FGameplayTagNativeAdder
 	FGameplayTag InputTag_Ability_ChangeClass;
 	FGameplayTag InputTag_Ability_Dash;
 	FGameplayTag InputTag_Ability_Melee;
+	FGameplayTag InputTag_Ability_Fire;
 
 protected:
 	virtual void AddTags() override;

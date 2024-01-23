@@ -25,7 +25,7 @@ public:
 
 	const TArray<TSubclassOf<UCharacterClass>>& GetAvailableCharacterClasses() const { return AvailableCharacterClasses; }
 
-	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass, const ABaseCharacter* Character);
+	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass, ABaseCharacter* Character);
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Character Class")

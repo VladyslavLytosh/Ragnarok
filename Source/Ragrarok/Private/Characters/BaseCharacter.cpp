@@ -6,6 +6,7 @@
 #include "AbilitySystem/AbilitySystemComponent.h"
 #include "Characters/CharacterClassComponent.h"
 #include "Input/RagnarokInputComponent.h"
+#include "Weapons/BaseWeaponInstance.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -55,4 +56,9 @@ const TArray<TSubclassOf<UCharacterClass>>& ABaseCharacter::GetAvailableCharacte
 void ABaseCharacter::SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass)
 {
 	CharacterClassComponent->SetCurrentCharacterClass(InCurrentCharacterClass, this);
+}
+
+void ABaseCharacter::SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass)
+{
+	CurrentEquippedWeapon = NewObject<UBaseWeaponInstance>(this, CurrentEquippedWeaponClass);
 }
