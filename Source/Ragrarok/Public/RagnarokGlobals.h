@@ -14,4 +14,5 @@ struct FDeathData
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 	UPaperFlipbook* DeathFlipbook;
+	
 };

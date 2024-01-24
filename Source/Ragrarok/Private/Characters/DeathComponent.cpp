@@ -36,8 +36,9 @@ void UDeathComponent::OnDeathStarted()
 			UPaperSprite* PaperSprite = DeathData.DeathFlipbook->GetSpriteAtFrame(RandomFrame);
 
 			FTransform SpawnTransform = OwnerCharacter->GetSprite()->GetComponentTransform();
-			SpawnTransform.SetLocation(SpawnTransform.GetLocation() + FVector::DownVector * 10);
-			SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(PaperSprite,OwnerCharacter->GetSprite()->GetComponentTransform());
+			SpawnTransform.SetLocation(SpawnTransform.GetLocation() + SpriteSpawnOffset);
+			UE_LOG(LogTemp,Display,TEXT("Loc: %s"), *SpawnTransform.GetLocation().ToString())
+			SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(PaperSprite,SpawnTransform);
 		}
 	}
 

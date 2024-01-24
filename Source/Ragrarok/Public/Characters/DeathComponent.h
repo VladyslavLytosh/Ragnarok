@@ -40,4 +40,7 @@ protected:
 	
 	UPROPERTY(Transient)
 	bool bCharacterDead = false;
+
+	UPROPERTY(EditDefaultsOnly)
+	FVector SpriteSpawnOffset = FVector(0,0,-5);
 };
