@@ -11,10 +11,8 @@ struct FProjectileWeaponData
 {
 	GENERATED_BODY()
 
-	// TODO: Change Class to projectile class
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-	TSubclassOf<AActor> Projectile;
-
+	TSubclassOf<AActor> ProjectileClass;
 };
 
 UCLASS()
