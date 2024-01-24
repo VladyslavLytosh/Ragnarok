@@ -10,15 +10,16 @@ UDeathComponent::UDeathComponent(const FObjectInitializer& ObjectInitializer) : 
 
 void UDeathComponent::OnDeathStarted()
 {
+	UE_LOG(LogTemp,Display,TEXT("Death Started"))
 	if (GetWorld()->GetTimerManager().TimerExists(DeathTimerHandle) || bCharacterDead)
 	{
 		return;
 	}
 	
 	bCharacterDead = true;
-	if (DeathAnimation)
+	if (DeathData.DeathAnimation)
 	{
-		GetWorld()->GetTimerManager().SetTimer(DeathTimerHandle,this,&ThisClass::FinishDeath,DeathAnimation->GetTotalDuration());
+		GetWorld()->GetTimerManager().SetTimer(DeathTimerHandle,this,&ThisClass::FinishDeath,DeathData.DeathAnimation->GetTotalDuration());
 	}
 	
 	if (OnCharacterDeathStarted.IsBound())
@@ -27,9 +28,9 @@ void UDeathComponent::OnDeathStarted()
 	}
 }
 
-void UDeathComponent::SetDeathAnimation(UPaperZDAnimSequence* DeathAnim)
+void UDeathComponent::SetDeathData(const FDeathData& NewDeathData)
 {
-	DeathAnimation = DeathAnim;
+	DeathData = NewDeathData;
 }
 
 void UDeathComponent::FinishDeath()

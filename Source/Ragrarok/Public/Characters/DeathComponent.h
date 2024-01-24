@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "RagnarokGlobals.h"
 #include "Components/PawnComponent.h"
 #include "DeathComponent.generated.h"
 
@@ -21,7 +22,7 @@ public:
 
 	void OnDeathStarted();
 	
-	void SetDeathAnimation(UPaperZDAnimSequence* DeathAnim);
+	void SetDeathData(const FDeathData& NewDeathData);
 
 	bool IsCharacterDead() const {return bCharacterDead;}
 
@@ -32,10 +33,10 @@ public:
 	
 protected:
 	void FinishDeath();
-
-	UPROPERTY(VisibleDefaultsOnly,Category="Animations")
-	UPaperZDAnimSequence* DeathAnimation;
-
+	
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	FDeathData DeathData;
+	
 	UPROPERTY()
 	bool bCharacterDead = false;
 

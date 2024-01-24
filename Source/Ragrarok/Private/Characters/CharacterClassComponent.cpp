@@ -37,7 +37,7 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 		RemovePreviousClassAbilities(Character);
 		CurrentCharacterClass = InCurrentCharacterClass;
 		CurrentCharacterClass->OnClassChanged(Character);
-
+		
 		if (USpriteEffectsManagerSubsystem* SpriteEffectsManagerSubsystem = USpriteEffectsManagerSubsystem::Get(this))
 		{
 			FTransform SpawnTransform;

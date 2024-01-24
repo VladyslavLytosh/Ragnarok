@@ -6,10 +6,13 @@
 #include "AbilitySystem/AbilitySet.h"
 #include "AbilitySystem/AbilitySystemComponent.h"
 #include "Animations/RagnarokAnimInstance.h"
+#include "CharacterClassSystem/CharacterClass.h"
 #include "Characters/CharacterClassComponent.h"
 #include "Characters/DeathComponent.h"
 #include "Characters/HealthComponent.h"
 #include "Components/BoxComponent.h"
+#include "Data/CharacterDeathData.h"
+#include "Engine/DamageEvents.h"
 #include "Input/RagnarokInputComponent.h"
 #include "Weapons/BaseWeaponInstance.h"
 
@@ -80,15 +83,32 @@ void ABaseCharacter::SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> C
 float ABaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
 	AActor* DamageCauser)
 {
-	if (UHealthComponent* HealthComponent = FindComponentByClass<UHealthComponent>())
+	const float SuperResult = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	
+	UHealthComponent* HealthComponent = FindComponentByClass<UHealthComponent>();
+	if (!HealthComponent)
 	{
-		UE_LOG(LogTemp,Warning,TEXT("Character: [%s] recive [%f] damage"), *GetName(),DamageAmount);
-		HealthComponent->ReduceHealth(DamageAmount);
-		if (HealthComponent->GetIsOutOfHealth())
-		{
-			//DeathComponent->SetDeathAnimation(); // TODO : Set animation
-			DeathComponent->OnDeathStarted();
-		}
+		return SuperResult;
 	}
-	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	
+	UE_LOG(LogTemp,Warning,TEXT("Character: [%s] recive [%f] damage"), *GetName(),DamageAmount);
+
+	HealthComponent->ReduceHealth(DamageAmount);
+		
+	if (HealthComponent->GetIsOutOfHealth())
+	{
+		const UCharacterClass* CurrentCharacterClass = CharacterClassComponent->GetCurrentCharacterClass();
+		if (CurrentCharacterClass)
+		{
+			UCharacterDeathData* CharacterDeathData = CurrentCharacterClass->GetCharacterDeathData();
+			if (CharacterDeathData)
+			{
+				DeathComponent->SetDeathData(CharacterDeathData->GetDeathDataByDamageType(DamageEvent.DamageTypeClass));
+			}
+		}
+
+		DeathComponent->OnDeathStarted();
+	}
+	
+	return SuperResult;
 }
