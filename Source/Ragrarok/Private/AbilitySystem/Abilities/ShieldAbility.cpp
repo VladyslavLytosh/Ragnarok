@@ -8,8 +8,6 @@
 #include "Characters/BaseCharacter.h"
 #include "Components/SphereComponent.h"
 
-// TODO : FIX ABILITY TIMER ISSUE
-
 void UShieldAbility::InputReleased()
 {
 	Super::InputReleased();
@@ -40,10 +38,11 @@ void UShieldAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 	Character->GetAnimInstance()->PlayAnimationOverride(
 	AbilityVisualInfo.ShieldUpAnimSequence, "DefaultSlot", 1, 0,
 	FZDOnAnimationOverrideEndSignature::CreateUObject(this, &ThisClass::OnShieldUpAnimEnded));
-	
-	Character->GetPaperFlipbookComponent()->SetLooping(false);
-	Character->GetPaperFlipbookComponent()->SetFlipbook(AbilityVisualInfo.ShieldUpFlipbook);
-	Character->GetPaperFlipbookComponent()->Play();
+
+	if (Character->GetPaperFlipbookComponent())
+	{
+		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), false, AbilityVisualInfo.ShieldUpFlipbook);
+	}
 }
 
 void UShieldAbility::EndAbility()
@@ -68,9 +67,10 @@ void UShieldAbility::EndAbility()
 	Character->GetAnimInstance()->PlayAnimationOverride(
 	AbilityVisualInfo.ShieldDownAnimSequence, "DefaultSlot", 1, 0);
 	
-	Character->GetPaperFlipbookComponent()->SetLooping(false);
-	Character->GetPaperFlipbookComponent()->SetFlipbook(AbilityVisualInfo.ShieldDownFlipbook);
-	Character->GetPaperFlipbookComponent()->Play();
+	if (Character->GetPaperFlipbookComponent())
+	{
+		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), false, AbilityVisualInfo.ShieldDownFlipbook);
+	}
 
 	if (USphereComponent* ShieldSphereComponent = Character->GetShieldSphereComponent())
 	{
@@ -109,13 +109,22 @@ void UShieldAbility::OnShieldUpAnimEnded(bool bCompleted)
 	}
 	GetWorld()->GetTimerManager().SetTimer(EndAbilityTimer, this, &ThisClass::EndAbility, MaxAbilityLength);
 	
-	Character->GetPaperFlipbookComponent()->SetLooping(true);
-	Character->GetPaperFlipbookComponent()->SetFlipbook(AbilityVisualInfo.ShieldActiveFlipbook);
-	Character->GetPaperFlipbookComponent()->Play();
+	if (Character->GetPaperFlipbookComponent())
+	{
+		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), true, AbilityVisualInfo.ShieldActiveFlipbook);
+	}
 }
 
 void UShieldAbility::OnShieldBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	
+}
+
+void UShieldAbility::SetAndPlayFlipbookAnimation(UPaperFlipbookComponent* PaperFlipbookComponent, bool bIsLopping,
+	UPaperFlipbook* Flipbook)
+{
+	PaperFlipbookComponent->SetLooping(bIsLopping);
+	PaperFlipbookComponent->SetFlipbook(Flipbook);
+	PaperFlipbookComponent->Play();
 }

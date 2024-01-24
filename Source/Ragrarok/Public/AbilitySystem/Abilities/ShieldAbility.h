@@ -7,6 +7,7 @@
 #include "AbilitySystem/AbilityBase.h"
 #include "ShieldAbility.generated.h"
 
+class UPaperFlipbookComponent;
 class UPaperZDAnimSequence;
 
 USTRUCT(BlueprintType)
@@ -59,4 +60,6 @@ protected:
 	
 private:
 	FTimerHandle EndAbilityTimer;
+
+	void SetAndPlayFlipbookAnimation(UPaperFlipbookComponent* PaperFlipbookComponent, bool bIsLopping, UPaperFlipbook* Flipbook);
 };
