@@ -97,16 +97,14 @@ float ABaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageE
 		
 	if (HealthComponent->GetIsOutOfHealth())
 	{
-		const UCharacterClass* CurrentCharacterClass = CharacterClassComponent->GetCurrentCharacterClass();
+		const UCharacterClass* CurrentCharacterClass = GetCurrentCharacterClass();
 		if (CurrentCharacterClass)
 		{
-			UCharacterDeathData* CharacterDeathData = CurrentCharacterClass->GetCharacterDeathData();
-			if (CharacterDeathData)
+			if (const UCharacterDeathData* CharacterDeathData = CurrentCharacterClass->GetCharacterDeathData())
 			{
 				DeathComponent->SetDeathData(CharacterDeathData->GetDeathDataByDamageType(DamageEvent.DamageTypeClass));
 			}
 		}
-
 		DeathComponent->OnDeathStarted();
 	}
 	

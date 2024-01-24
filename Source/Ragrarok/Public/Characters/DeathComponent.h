@@ -37,9 +37,6 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	FDeathData DeathData;
 	
-	UPROPERTY()
+	UPROPERTY(Transient)
 	bool bCharacterDead = false;
-
-	UPROPERTY()
-	FTimerHandle DeathTimerHandle;
 };

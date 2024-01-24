@@ -17,7 +17,9 @@ class RAGRAROK_API UCharacterDeathData : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	FDeathData GetDeathDataByDamageType(const TSubclassOf<UDamageType>& DamageType);
+	FDeathData GetDeathDataByDamageType(const TSubclassOf<UDamageType>& DamageType) const;
+	
 private:
+	UPROPERTY(EditDefaultsOnly, meta=(AllowPrivateAccess=true))
 	TMap<TSubclassOf<UDamageType>,FDeathData> Data;
 };

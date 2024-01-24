@@ -2,7 +2,7 @@
 
 #include "Data/CharacterDeathData.h"
 
-FDeathData UCharacterDeathData::GetDeathDataByDamageType(const TSubclassOf<UDamageType>& DamageType)
+FDeathData UCharacterDeathData::GetDeathDataByDamageType(const TSubclassOf<UDamageType>& DamageType) const
 {
 	if (Data.Contains(DamageType))
 	{
