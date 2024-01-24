@@ -11,8 +11,7 @@ void UHealthComponent::AddHealth(const float& Amount)
 {
 	if (Amount > 0)
 	{
-		const float HealthToAdd = FMath::Clamp(Amount,0.f,MaxHealth);
-		CurrentHealth += HealthToAdd;
+		SetHealth(CurrentHealth + Amount);
 	}
 }
 
@@ -20,8 +19,7 @@ void UHealthComponent::ReduceHealth(const float& Amount)
 {
 	if (Amount > 0)
 	{
-		const float HealthToReduce = FMath::Clamp(Amount,0.f,MaxHealth);
-		CurrentHealth -= HealthToReduce;
+		SetHealth(CurrentHealth - Amount);
 	}
 }
 
@@ -32,3 +30,18 @@ void UHealthComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyCha
 	CurrentHealth = FMath::Clamp(CurrentHealth,0.f,MaxHealth);
 }
 #endif
+
+void UHealthComponent::SetHealth(const float NewHealth)
+{
+	const float Health = FMath::Clamp(NewHealth,0.f,MaxHealth);
+	CurrentHealth = Health;
+
+	if (Health <= 0)
+	{
+		bOutOfHealth = true;
+	}
+	else
+	{
+		bOutOfHealth = false;
+	}
+}

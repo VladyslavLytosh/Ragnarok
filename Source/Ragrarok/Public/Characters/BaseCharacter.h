@@ -7,6 +7,7 @@
 #include "PaperZDCharacter.h"
 #include "BaseCharacter.generated.h"
 
+class UDeathComponent;
 class UBaseWeaponInstance;
 class URagnarokAnimInstance;
 class UBoxComponent;
@@ -54,7 +55,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Character Class")
 	TObjectPtr<UCharacterClassComponent> CharacterClassComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Input")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components|Input")
 	TObjectPtr<URagnarokInputComponent> RagnarokInputComponent;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category="AbilitySystem")
@@ -63,6 +64,9 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UBaseWeaponInstance> CurrentEquippedWeapon;
 
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "HitBox")
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
 	TObjectPtr<UBoxComponent> HitBoxComponent;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UDeathComponent> DeathComponent;
 };
