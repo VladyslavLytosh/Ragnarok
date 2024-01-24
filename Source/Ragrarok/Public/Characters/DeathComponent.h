@@ -43,4 +43,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	FVector SpriteSpawnOffset = FVector(0,0,-5);
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TSubclassOf<AActor> BloodDecaClass;
+	float DecalLifeSpan = 200.f;
 };

@@ -6,6 +6,7 @@
 #include "PaperFlipbook.h"
 #include "PaperFlipbookComponent.h"
 #include "PaperZDCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "Subsystems/SpriteEffectsManagerSubsystem.h"
 
 UDeathComponent::UDeathComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -21,27 +22,36 @@ void UDeathComponent::OnDeathStarted()
 	}
 	
 	bCharacterDead = true;
+	
 	if (OnCharacterDeathStarted.IsBound())
 	{
 		OnCharacterDeathStarted.Broadcast(GetPawn<APawn>());
 	}
 
-	if (DeathData.DeathFlipbook)
+	const APaperZDCharacter* OwnerCharacter = GetPawn<APaperZDCharacter>();
+	if (OwnerCharacter && OwnerCharacter->GetSprite())
 	{
-		const APaperZDCharacter* OwnerCharacter = GetPawn<APaperZDCharacter>();
-		USpriteEffectsManagerSubsystem* SpriteEffectsManagerSubsystem = GetWorld()->GetSubsystem<USpriteEffectsManagerSubsystem>();
-		if (SpriteEffectsManagerSubsystem && OwnerCharacter && OwnerCharacter->GetSprite())
+		if (DeathData.DeathFlipbook)
 		{
-			const int32 RandomFrame = FMath::RandRange(0, DeathData.DeathFlipbook->GetNumFrames() - 1);
-			UPaperSprite* PaperSprite = DeathData.DeathFlipbook->GetSpriteAtFrame(RandomFrame);
+			USpriteEffectsManagerSubsystem* SpriteEffectsManagerSubsystem = GetWorld()->GetSubsystem<USpriteEffectsManagerSubsystem>();
+			if (SpriteEffectsManagerSubsystem)
+			{
+				const int32 RandomFrame = FMath::RandRange(0, DeathData.DeathFlipbook->GetNumFrames() - 1);
+				UPaperSprite* PaperSprite = DeathData.DeathFlipbook->GetSpriteAtFrame(RandomFrame);
 
-			FTransform SpawnTransform = OwnerCharacter->GetSprite()->GetComponentTransform();
-			SpawnTransform.SetLocation(SpawnTransform.GetLocation() + SpriteSpawnOffset);
-			UE_LOG(LogTemp,Display,TEXT("Loc: %s"), *SpawnTransform.GetLocation().ToString())
-			SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(PaperSprite,SpawnTransform);
+				FTransform SpawnTransform = OwnerCharacter->GetSprite()->GetComponentTransform();
+				SpawnTransform.SetLocation(SpawnTransform.GetLocation() + SpriteSpawnOffset);
+				UE_LOG(LogTemp,Display,TEXT("Loc: %s"), *SpawnTransform.GetLocation().ToString())
+				SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(PaperSprite,SpawnTransform);
+			}
+		}
+		if (BloodDecaClass)
+		{
+			AActor* DecalActor = GetWorld()->SpawnActor<AActor>(BloodDecaClass,OwnerCharacter->GetSprite()->GetComponentLocation(),OwnerCharacter->GetSprite()->GetComponentRotation());
+			DecalActor->SetLifeSpan(DecalLifeSpan);
 		}
 	}
-
+	
 	FinishDeath();
 }
 
