@@ -26,9 +26,7 @@ public:
 	ABaseCharacter();
 	
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
-
+	
 	virtual void BeginPlay() override;
 	
 	UFUNCTION(BlueprintPure)
@@ -62,9 +60,6 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Character Class")
 	TObjectPtr<UCharacterClassComponent> CharacterClassComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components|Input")
-	TObjectPtr<URagnarokInputComponent> RagnarokInputComponent;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySet> DefaultAbilitySet;
