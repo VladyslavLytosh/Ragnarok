@@ -19,5 +19,5 @@ protected:
 	void WeaponFire();
 
 	UFUNCTION()
-	void OnFireAnimEnded(bool bComplete);
+	void OnFireAnimEnded(bool bCompleted);
 };

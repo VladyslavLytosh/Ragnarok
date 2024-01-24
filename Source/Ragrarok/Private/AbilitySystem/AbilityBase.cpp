@@ -29,6 +29,7 @@ void UAbilityBase::TryActivateAbility(const FAbilityInfo& ActivationInfo)
 void UAbilityBase::ActivateAbility(const FAbilityInfo& ActivationInfo)
 {
 	bIsAbilityActive = true;
+	AddAbilityTags(GetCurrentAbilityInfo().AbilitySystemComponent);
 	if (AbilityCooldownType == EAbilityCooldownType::WhenAbilityActivated)
 	{
 		if (GetWorld()->GetTimerManager().TimerExists(CooldownTimerHandle))

@@ -23,8 +23,8 @@ public:
 	const FGameplayTagContainer& GetAbilityInputTags() const {return AbilityInputTags;}
 	bool HasInputTag(const FGameplayTag& GameplayTag) const;
 	
-	void InputPressed();
-	void InputReleased();
+	virtual void InputPressed();
+	virtual void InputReleased();
 	
 	void TryActivateAbility(const FAbilityInfo& ActivationInfo);
 	
