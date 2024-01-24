@@ -14,7 +14,6 @@
 #include "Components/SphereComponent.h"
 #include "Data/CharacterDeathData.h"
 #include "Engine/DamageEvents.h"
-#include "Input/RagnarokInputComponent.h"
 #include "Weapons/BaseWeaponInstance.h"
 
 ABaseCharacter::ABaseCharacter()
@@ -22,7 +21,6 @@ ABaseCharacter::ABaseCharacter()
 	//PrimaryActorTick.bCanEverTick = true;
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
-	RagnarokInputComponent = CreateDefaultSubobject<URagnarokInputComponent>(TEXT("InputComponent"));
 	CharacterClassComponent = CreateDefaultSubobject<UCharacterClassComponent>(TEXT("CharacterClassComponent"));
 	HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBoxComponent"));
 	ShieldSphereComponent = CreateDefaultSubobject<USphereComponent>("ShieldSphereComponent");
@@ -40,17 +38,6 @@ ABaseCharacter::ABaseCharacter()
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
-}
-
-void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	check(RagnarokInputComponent);
-
-	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
-	check(EnhancedInputComponent);
-	
-	RagnarokInputComponent->InitializePlayerInput(EnhancedInputComponent);
 }
 
 void ABaseCharacter::BeginPlay()
