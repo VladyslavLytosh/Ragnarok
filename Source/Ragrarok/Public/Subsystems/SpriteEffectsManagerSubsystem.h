@@ -6,6 +6,7 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "SpriteEffectsManagerSubsystem.generated.h"
 
+class UPaperSprite;
 class UPaperFlipbook;
 
 UCLASS()
@@ -21,4 +22,11 @@ public:
 	                                 AActor* ActorToAttach = nullptr,
 	                                 FAttachmentTransformRules AttachmentTransformRules =
 		                                 FAttachmentTransformRules::KeepWorldTransform);
+
+	void SpawnSpriteEffectAtLocation(UPaperSprite* EffectFlipbook, const FTransform& SpawnTransform,
+									 AActor* Owner = nullptr,
+									 AActor* ActorToAttach = nullptr,
+									 FAttachmentTransformRules AttachmentTransformRules =
+										 FAttachmentTransformRules::KeepWorldTransform,
+										 float SpriteLifeSpawn = -1.f);
 };

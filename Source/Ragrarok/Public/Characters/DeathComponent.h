@@ -7,6 +7,7 @@
 #include "Components/PawnComponent.h"
 #include "DeathComponent.generated.h"
 
+class UPaperSprite;
 class UPaperZDAnimSequence;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDeathStartedDelegate, APawn*, OwnerPawn);
@@ -37,9 +38,6 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	FDeathData DeathData;
 	
-	UPROPERTY()
+	UPROPERTY(Transient)
 	bool bCharacterDead = false;
-
-	UPROPERTY()
-	FTimerHandle DeathTimerHandle;
 };

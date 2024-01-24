@@ -4,6 +4,8 @@
 #include "Subsystems/SpriteEffectsManagerSubsystem.h"
 #include "PaperFlipbookActor.h"
 #include "PaperFlipbookComponent.h"
+#include "PaperSpriteActor.h"
+#include "PaperSpriteComponent.h"
 #include "PaperFlipbook.h"
 
 USpriteEffectsManagerSubsystem* USpriteEffectsManagerSubsystem::Get(const UObject* WorldContextObject)
@@ -32,6 +34,31 @@ void USpriteEffectsManagerSubsystem::SpawnSpriteEffectAtLocation(UPaperFlipbook*
 		if (ActorToAttach)
 		{
 			PaperFlipbookActor->AttachToActor(ActorToAttach, AttachmentTransformRules);
+		}
+	}
+}
+
+void USpriteEffectsManagerSubsystem::SpawnSpriteEffectAtLocation(UPaperSprite* EffectFlipbook,
+	const FTransform& SpawnTransform, AActor* Owner, AActor* ActorToAttach,
+	FAttachmentTransformRules AttachmentTransformRules,float SpriteLifeSpan)
+{
+	APaperSpriteActor* PaperSpriteActor = GetWorld()->SpawnActorDeferred<APaperSpriteActor>(
+	APaperSpriteActor::StaticClass(), FTransform::Identity, Owner);
+	if (PaperSpriteActor)
+	{
+		PaperSpriteActor->GetRenderComponent()->SetMobility(EComponentMobility::Movable);
+		PaperSpriteActor->GetRenderComponent()->SetSprite(EffectFlipbook);
+		PaperSpriteActor->SetActorEnableCollision(false);
+		
+		if (SpriteLifeSpan > 0)
+		{
+			PaperSpriteActor->SetLifeSpan(SpriteLifeSpan);
+		}
+		
+		PaperSpriteActor->FinishSpawning(SpawnTransform);
+		if (ActorToAttach)
+		{
+			PaperSpriteActor->AttachToActor(ActorToAttach, AttachmentTransformRules);
 		}
 	}
 }

@@ -5,8 +5,7 @@
 #include "CoreMinimal.h"
 #include "RagnarokGlobals.generated.h"
 
-class UPaperSprite;
-class UPaperZDAnimSequence;
+class UPaperFlipbook;
 
 USTRUCT(BlueprintType)
 struct FDeathData
@@ -14,10 +13,5 @@ struct FDeathData
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
-	UPaperZDAnimSequence* DeathAnimation;
-
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
-	UPaperSprite* DeathSprite;
-	
-	bool IsValid() const {return DeathAnimation && DeathSprite;}
+	UPaperFlipbook* DeathFlipbook;
 };
