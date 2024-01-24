@@ -68,7 +68,6 @@ void UMeleeAbility::CheckHit()
 	{
 		return;
 	}
-
 	
 	TArray<AActor*> OverlappedActors;
 	HitBox->GetOverlappingActors(OverlappedActors,CharacterClass);

@@ -14,4 +14,10 @@ class RAGRAROK_API UProjectile_FireAbility : public UBaseWeaponAbility
 
 protected:
 	virtual void ActivateAbility(const FAbilityInfo& ActivationInfo) override;
+
+	UFUNCTION()
+	void WeaponFire();
+
+	UFUNCTION()
+	void OnFireAnimEnded(bool bComplete);
 };
