@@ -28,11 +28,11 @@ void UDeathComponent::OnDeathStarted()
 
 	if (DeathData.DeathFlipbook)
 	{
-		APaperZDCharacter* OwnerCharacter = GetPawn<APaperZDCharacter>();
+		const APaperZDCharacter* OwnerCharacter = GetPawn<APaperZDCharacter>();
 		USpriteEffectsManagerSubsystem* SpriteEffectsManagerSubsystem = GetWorld()->GetSubsystem<USpriteEffectsManagerSubsystem>();
 		if (SpriteEffectsManagerSubsystem && OwnerCharacter && OwnerCharacter->GetSprite())
 		{
-			const int32 RandomFrame = FMath::RandRange(0, DeathData.DeathFlipbook->GetNumFrames());
+			const int32 RandomFrame = FMath::RandRange(0, DeathData.DeathFlipbook->GetNumFrames() - 1);
 			UPaperSprite* PaperSprite = DeathData.DeathFlipbook->GetSpriteAtFrame(RandomFrame);
 
 			FTransform SpawnTransform = OwnerCharacter->GetSprite()->GetComponentTransform();
