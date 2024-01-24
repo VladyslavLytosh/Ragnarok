@@ -65,9 +65,9 @@ void UProjectile_FireAbility::WeaponFire()
 	ProjectileWeaponInstance->UpdateFiringTime();
 }
 
-void UProjectile_FireAbility::OnFireAnimEnded(bool bComplete)
+void UProjectile_FireAbility::OnFireAnimEnded(bool bCompleted)
 {
-	if (bComplete)
+	if (bCompleted)
 	{
 		const ABaseCharacter* Character = Cast<ABaseCharacter>(GetCurrentAbilityInfo().AvatarPawn);
 		if (!Character)

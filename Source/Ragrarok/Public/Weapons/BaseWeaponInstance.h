@@ -31,7 +31,6 @@ struct FWeaponVisualData
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Weapon|Fire")
 	TObjectPtr<UPaperZDAnimSequence> FireAnimSequence;
-	
 };
 
 UCLASS(Blueprintable)

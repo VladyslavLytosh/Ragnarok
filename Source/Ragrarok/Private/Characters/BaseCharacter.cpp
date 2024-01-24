@@ -11,6 +11,7 @@
 #include "Characters/DeathComponent.h"
 #include "Characters/HealthComponent.h"
 #include "Components/BoxComponent.h"
+#include "Components/SphereComponent.h"
 #include "Data/CharacterDeathData.h"
 #include "Engine/DamageEvents.h"
 #include "Input/RagnarokInputComponent.h"
@@ -24,8 +25,15 @@ ABaseCharacter::ABaseCharacter()
 	RagnarokInputComponent = CreateDefaultSubobject<URagnarokInputComponent>(TEXT("InputComponent"));
 	CharacterClassComponent = CreateDefaultSubobject<UCharacterClassComponent>(TEXT("CharacterClassComponent"));
 	HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBoxComponent"));
+	ShieldSphereComponent = CreateDefaultSubobject<USphereComponent>("ShieldSphereComponent");
 
 	HitBoxComponent->SetupAttachment(GetSprite());
+	
+	ShieldSphereComponent->SetupAttachment(GetSprite());
+	
+	ShieldSphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	ShieldSphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+	
 	DeathComponent = CreateDefaultSubobject<UDeathComponent>(TEXT("DeathComponent"));
 }
 

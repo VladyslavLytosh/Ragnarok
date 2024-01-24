@@ -7,6 +7,7 @@
 #include "PaperZDCharacter.h"
 #include "BaseCharacter.generated.h"
 
+class USphereComponent;
 class UDeathComponent;
 class UBaseWeaponInstance;
 class URagnarokAnimInstance;
@@ -32,8 +33,12 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 	UCharacterClass* GetCurrentCharacterClass() const;
+	
 	UFUNCTION(BlueprintPure)
 	UBoxComponent* GetHitBoxComponent() const { return HitBoxComponent; }
+
+	UFUNCTION(BlueprintPure)
+	USphereComponent* GetShieldSphereComponent() const { return ShieldSphereComponent; }
 	
 	UFUNCTION(BlueprintPure)
 	URagnarokAnimInstance* GetRagnarokAnimInstance() const;
@@ -69,4 +74,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UDeathComponent> DeathComponent;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
+	TObjectPtr<USphereComponent> ShieldSphereComponent;
 };

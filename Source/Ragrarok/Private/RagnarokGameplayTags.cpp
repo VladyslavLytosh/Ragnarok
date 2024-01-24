@@ -13,6 +13,8 @@ void FRagnarokGameplayTags::AddTags()
 	AddTag(InputTag_Ability_Dash, "InputTag.Ability.Dash", "Dash ability input.");
 	AddTag(InputTag_Ability_Melee, "InputTag.Ability.Melee", "Melee ability input.");
 	AddTag(InputTag_Ability_Fire, "InputTag.Ability.Fire", "Fire ability input.");
+	AddTag(InputTag_Ability_Shield, "InputTag.Ability.Shield", "Shield ability input.");
+	AddTag(Ability_ShieldActive, "Ability.Shield", "Shield active tag.");
 }
 
 void FRagnarokGameplayTags::AddTag(FGameplayTag& OutTag, const ANSICHAR* TagName, const ANSICHAR* TagComment)
