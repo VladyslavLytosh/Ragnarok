@@ -22,14 +22,15 @@ USpriteEffectsManagerSubsystem* USpriteEffectsManagerSubsystem::Get(const UObjec
 void USpriteEffectsManagerSubsystem::SpawnSpriteEffectAtLocation(UPaperFlipbook* EffectFlipbook,
                                                                  const FTransform& SpawnTransform, AActor* Owner,
                                                                  AActor* ActorToAttach,
-                                                                 FAttachmentTransformRules AttachmentTransformRules)
+                                                                 FAttachmentTransformRules AttachmentTransformRules,
+                                                                 float FlipbookLifeSpan)
 {
 	APaperFlipbookActor* PaperFlipbookActor = GetWorld()->SpawnActorDeferred<APaperFlipbookActor>(
 		APaperFlipbookActor::StaticClass(), FTransform::Identity, Owner);
 	if (PaperFlipbookActor)
 	{
 		PaperFlipbookActor->GetRenderComponent()->SetFlipbook(EffectFlipbook);
-		PaperFlipbookActor->SetLifeSpan(EffectFlipbook->GetTotalDuration());
+		PaperFlipbookActor->SetLifeSpan(FlipbookLifeSpan);
 		PaperFlipbookActor->FinishSpawning(SpawnTransform);
 		if (ActorToAttach)
 		{
@@ -38,7 +39,7 @@ void USpriteEffectsManagerSubsystem::SpawnSpriteEffectAtLocation(UPaperFlipbook*
 	}
 }
 
-void USpriteEffectsManagerSubsystem::SpawnSpriteEffectAtLocation(UPaperSprite* EffectFlipbook,
+void USpriteEffectsManagerSubsystem::SpawnSpriteEffectAtLocation(UPaperSprite* EffectSprite,
 	const FTransform& SpawnTransform, AActor* Owner, AActor* ActorToAttach,
 	FAttachmentTransformRules AttachmentTransformRules,float SpriteLifeSpan)
 {
@@ -47,7 +48,7 @@ void USpriteEffectsManagerSubsystem::SpawnSpriteEffectAtLocation(UPaperSprite* E
 	if (PaperSpriteActor)
 	{
 		PaperSpriteActor->GetRenderComponent()->SetMobility(EComponentMobility::Movable);
-		PaperSpriteActor->GetRenderComponent()->SetSprite(EffectFlipbook);
+		PaperSpriteActor->GetRenderComponent()->SetSprite(EffectSprite);
 		PaperSpriteActor->SetActorEnableCollision(false);
 		
 		if (SpriteLifeSpan > 0)

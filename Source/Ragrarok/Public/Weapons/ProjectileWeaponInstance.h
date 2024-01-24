@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BaseWeaponInstance.h"
+#include "WeaponProjectile.h"
 #include "ProjectileWeaponInstance.generated.h"
 
 USTRUCT(BlueprintType)
@@ -12,7 +13,7 @@ struct FProjectileWeaponData
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-	TSubclassOf<AActor> ProjectileClass;
+	TSubclassOf<AWeaponProjectile> ProjectileClass;
 };
 
 UCLASS()

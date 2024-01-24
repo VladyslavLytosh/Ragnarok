@@ -26,6 +26,7 @@ ABaseCharacter::ABaseCharacter()
 	CharacterClassComponent = CreateDefaultSubobject<UCharacterClassComponent>(TEXT("CharacterClassComponent"));
 	HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBoxComponent"));
 	ShieldSphereComponent = CreateDefaultSubobject<USphereComponent>("ShieldSphereComponent");
+	ShieldFlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>("ShieldFlipbookComponent");
 
 	HitBoxComponent->SetupAttachment(GetSprite());
 	
@@ -35,6 +36,9 @@ ABaseCharacter::ABaseCharacter()
 	ShieldSphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
 	
 	DeathComponent = CreateDefaultSubobject<UDeathComponent>(TEXT("DeathComponent"));
+
+	ShieldFlipbookComponent->SetupAttachment(GetSprite());
+	ShieldFlipbookComponent->SetWorldScale3D(FVector(2,2,2));
 }
 
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const

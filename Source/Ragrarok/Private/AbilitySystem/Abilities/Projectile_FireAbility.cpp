@@ -8,6 +8,7 @@
 #include "Animations/RagnarokAnimInstance.h"
 #include "Characters/BaseCharacter.h"
 #include "Weapons/ProjectileWeaponInstance.h"
+#include "Weapons/WeaponProjectile.h"
 
 void UProjectile_FireAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 {
@@ -46,7 +47,7 @@ void UProjectile_FireAbility::WeaponFire()
 	{
 		return;
 	}
-	const ABaseCharacter* Character = Cast<ABaseCharacter>(GetCurrentAbilityInfo().AvatarPawn);
+	ABaseCharacter* Character = Cast<ABaseCharacter>(GetCurrentAbilityInfo().AvatarPawn);
 	if (!Character || !Character->GetSprite())
 	{
 		return;
@@ -57,10 +58,11 @@ void UProjectile_FireAbility::WeaponFire()
 		return;
 	}
 	
-	const FVector SpawnLocation = Character->GetSprite()->GetSocketLocation("WeaponMuzzle");
-	const FRotator SpawnRotation = Character->GetActorRotation();
-	GetWorld()->SpawnActor<AActor>(ProjectileWeaponInstance->GetProjectileWeaponData().ProjectileClass, SpawnLocation,
-	                               SpawnRotation);
+	if (AWeaponProjectile* ProjectileActor = GetWorld()->SpawnActorDeferred<AWeaponProjectile>(ProjectileWeaponInstance->GetProjectileWeaponData().ProjectileClass, FTransform::Identity))
+	{
+		ProjectileActor->SetOwner(Character);
+		ProjectileActor->FinishSpawning(GetProjectileSpawnTransform(Character));
+	}
 	
 	ProjectileWeaponInstance->UpdateFiringTime();
 }
@@ -81,5 +83,15 @@ void UProjectile_FireAbility::OnFireAnimEnded(bool bCompleted)
 		}
 		EndAbility();
 	}
+}
+
+FTransform UProjectile_FireAbility::GetProjectileSpawnTransform(const ABaseCharacter* Character) const
+{
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(Character->GetSprite()->GetSocketLocation("WeaponMuzzle"));
+	SpawnTransform.SetRotation(Character->GetActorRotation().Quaternion());
+	SpawnTransform.SetScale3D(FVector(1,1,1));
+	
+	return SpawnTransform;
 }
  

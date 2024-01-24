@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PaperFlipbook.h"
 #include "AbilitySystem/AbilityBase.h"
 #include "ShieldAbility.generated.h"
 
@@ -18,6 +19,15 @@ struct FAbilityVisualInfo
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Ability Visual")
 	TObjectPtr<UPaperZDAnimSequence> ShieldDownAnimSequence;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Ability Visual")
+	TObjectPtr<UPaperFlipbook> ShieldUpFlipbook;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Ability Visual")
+	TObjectPtr<UPaperFlipbook> ShieldDownFlipbook;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Ability Visual")
+	TObjectPtr<UPaperFlipbook> ShieldActiveFlipbook;
 };
 
 UCLASS()
@@ -43,4 +53,10 @@ protected:
 	void OnShieldBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 	                          AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
 	                          const FHitResult& SweepResult);
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Ability Settings", meta=(Units = "s"))
+	int32 MaxAbilityLength = 10;
+	
+private:
+	FTimerHandle EndAbilityTimer;
 };

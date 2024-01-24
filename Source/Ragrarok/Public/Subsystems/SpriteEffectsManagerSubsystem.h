@@ -15,15 +15,17 @@ class RAGRAROK_API USpriteEffectsManagerSubsystem : public UWorldSubsystem
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable)
 	static USpriteEffectsManagerSubsystem* Get(const UObject* WorldContextObject);
 
 	void SpawnSpriteEffectAtLocation(UPaperFlipbook* EffectFlipbook, const FTransform& SpawnTransform,
 	                                 AActor* Owner = nullptr,
 	                                 AActor* ActorToAttach = nullptr,
 	                                 FAttachmentTransformRules AttachmentTransformRules =
-		                                 FAttachmentTransformRules::KeepWorldTransform);
-
-	void SpawnSpriteEffectAtLocation(UPaperSprite* EffectFlipbook, const FTransform& SpawnTransform,
+		                                 FAttachmentTransformRules::KeepWorldTransform,
+		                                 float FlipbookLifeSpan = -1.f);
+	
+	void SpawnSpriteEffectAtLocation(UPaperSprite* EffectSprite, const FTransform& SpawnTransform,
 									 AActor* Owner = nullptr,
 									 AActor* ActorToAttach = nullptr,
 									 FAttachmentTransformRules AttachmentTransformRules =

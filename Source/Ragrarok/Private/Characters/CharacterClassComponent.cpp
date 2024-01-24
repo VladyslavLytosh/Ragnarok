@@ -45,7 +45,9 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 			SpawnTransform.SetRotation(FRotator(0, 0, -90).Quaternion());
 			SpawnTransform.SetScale3D(EffectScale);
 			SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(ChangeClassEffectFlipbook,
-			                                                           SpawnTransform, GetOwner(), GetOwner());
+			                                                           SpawnTransform, GetOwner(), GetOwner(),
+			                                                           FAttachmentTransformRules::KeepWorldTransform,
+			                                                           ChangeClassEffectFlipbook->GetTotalDuration());
 		}
 	}
 }

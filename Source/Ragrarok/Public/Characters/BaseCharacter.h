@@ -41,6 +41,9 @@ public:
 	USphereComponent* GetShieldSphereComponent() const { return ShieldSphereComponent; }
 	
 	UFUNCTION(BlueprintPure)
+	UPaperFlipbookComponent* GetPaperFlipbookComponent() const { return ShieldFlipbookComponent; }
+	
+	UFUNCTION(BlueprintPure)
 	URagnarokAnimInstance* GetRagnarokAnimInstance() const;
 	
 	const TArray<TSubclassOf<UCharacterClass>>& GetAvailableCharacterClasses() const;
@@ -77,4 +80,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
 	TObjectPtr<USphereComponent> ShieldSphereComponent;
+	
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
+	TObjectPtr<UPaperFlipbookComponent> ShieldFlipbookComponent;
 };

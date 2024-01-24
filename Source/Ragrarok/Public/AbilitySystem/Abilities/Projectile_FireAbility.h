@@ -7,6 +7,8 @@
 #include "AbilitySystem/AbilityBase.h"
 #include "Projectile_FireAbility.generated.h"
 
+class ABaseCharacter;
+
 UCLASS()
 class RAGRAROK_API UProjectile_FireAbility : public UBaseWeaponAbility
 {
@@ -20,4 +22,7 @@ protected:
 
 	UFUNCTION()
 	void OnFireAnimEnded(bool bCompleted);
+
+private:
+	FTransform GetProjectileSpawnTransform(const ABaseCharacter* Character) const;
 };
