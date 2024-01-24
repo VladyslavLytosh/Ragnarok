@@ -4,6 +4,7 @@
 #include "Characters/DeathComponent.h"
 
 #include "PaperFlipbook.h"
+#include "PaperFlipbookComponent.h"
 #include "PaperZDCharacter.h"
 #include "Subsystems/SpriteEffectsManagerSubsystem.h"
 
@@ -32,7 +33,11 @@ void UDeathComponent::OnDeathStarted()
 		if (SpriteEffectsManagerSubsystem && OwnerCharacter && OwnerCharacter->GetSprite())
 		{
 			const int32 RandomFrame = FMath::RandRange(0, DeathData.DeathFlipbook->GetNumFrames());
-			SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(DeathData.DeathFlipbook->GetSpriteAtFrame(RandomFrame),OwnerCharacter->GetActorTransform(),OwnerCharacter);
+			UPaperSprite* PaperSprite = DeathData.DeathFlipbook->GetSpriteAtFrame(RandomFrame);
+
+			FTransform SpawnTransform = OwnerCharacter->GetSprite()->GetComponentTransform();
+			SpawnTransform.SetLocation(SpawnTransform.GetLocation() + FVector::DownVector * 10);
+			SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(PaperSprite,OwnerCharacter->GetSprite()->GetComponentTransform());
 		}
 	}
 

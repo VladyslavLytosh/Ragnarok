@@ -46,7 +46,10 @@ void USpriteEffectsManagerSubsystem::SpawnSpriteEffectAtLocation(UPaperSprite* E
 	APaperSpriteActor::StaticClass(), FTransform::Identity, Owner);
 	if (PaperSpriteActor)
 	{
+		PaperSpriteActor->GetRenderComponent()->SetMobility(EComponentMobility::Movable);
 		PaperSpriteActor->GetRenderComponent()->SetSprite(EffectFlipbook);
+		PaperSpriteActor->SetActorEnableCollision(false);
+		
 		if (SpriteLifeSpan > 0)
 		{
 			PaperSpriteActor->SetLifeSpan(SpriteLifeSpan);
