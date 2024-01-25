@@ -11,7 +11,6 @@
 #include "Characters/DeathComponent.h"
 #include "Characters/HealthComponent.h"
 #include "Components/BoxComponent.h"
-#include "Components/SphereComponent.h"
 #include "Data/CharacterDeathData.h"
 #include "Engine/DamageEvents.h"
 #include "Weapons/BaseWeaponInstance.h"
@@ -23,20 +22,15 @@ ABaseCharacter::ABaseCharacter()
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	CharacterClassComponent = CreateDefaultSubobject<UCharacterClassComponent>(TEXT("CharacterClassComponent"));
 	HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBoxComponent"));
-	ShieldSphereComponent = CreateDefaultSubobject<USphereComponent>("ShieldSphereComponent");
-	ShieldFlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>("ShieldFlipbookComponent");
+
 
 	HitBoxComponent->SetupAttachment(GetSprite());
 	
-	ShieldSphereComponent->SetupAttachment(GetSprite());
-	
-	ShieldSphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	ShieldSphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+
 	
 	DeathComponent = CreateDefaultSubobject<UDeathComponent>(TEXT("DeathComponent"));
 
-	ShieldFlipbookComponent->SetupAttachment(GetSprite());
-	ShieldFlipbookComponent->SetWorldScale3D(FVector(2,2,2));
+
 }
 
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
@@ -59,6 +53,11 @@ UCharacterClass* ABaseCharacter::GetCurrentCharacterClass() const
 	return CharacterClassComponent->GetCurrentCharacterClass();
 }
 
+void ABaseCharacter::SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass)
+{
+	CurrentEquippedWeapon = NewObject<UBaseWeaponInstance>(this, CurrentEquippedWeaponClass);
+}
+
 URagnarokAnimInstance* ABaseCharacter::GetRagnarokAnimInstance() const
 {
 	return Cast<URagnarokAnimInstance>(GetAnimInstance());
@@ -72,11 +71,6 @@ const TArray<TSubclassOf<UCharacterClass>>& ABaseCharacter::GetAvailableCharacte
 void ABaseCharacter::SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass)
 {
 	CharacterClassComponent->SetCurrentCharacterClass(InCurrentCharacterClass, this);
-}
-
-void ABaseCharacter::SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass)
-{
-	CurrentEquippedWeapon = NewObject<UBaseWeaponInstance>(this, CurrentEquippedWeaponClass);
 }
 
 float ABaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,

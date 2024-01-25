@@ -6,6 +6,7 @@
 #include "PaperFlipbookComponent.h"
 #include "PaperZDAnimInstance.h"
 #include "Characters/BaseCharacter.h"
+#include "Characters/Interfaces/ShieldBearerInterface.h"
 #include "Components/SphereComponent.h"
 
 void UShieldAbility::InputReleased()
@@ -39,9 +40,9 @@ void UShieldAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 	ShieldVisualInfo.ShieldUpAnimSequence, "DefaultSlot", 1, 0,
 	FZDOnAnimationOverrideEndSignature::CreateUObject(this, &ThisClass::OnShieldUpAnimEnded));
 
-	if (Character->GetPaperFlipbookComponent())
+	if (GetShieldFlipbook(Character))
 	{
-		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), false, ShieldVisualInfo.ShieldUpFlipbook);
+		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), false, AbilityVisualInfo.ShieldUpFlipbook);
 	}
 }
 
@@ -67,12 +68,12 @@ void UShieldAbility::EndAbility()
 	Character->GetAnimInstance()->PlayAnimationOverride(
 	ShieldVisualInfo.ShieldDownAnimSequence, "DefaultSlot", 1, 0);
 	
-	if (Character->GetPaperFlipbookComponent())
+	if (GetShieldFlipbook(Character))
 	{
-		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), false, ShieldVisualInfo.ShieldDownFlipbook);
+		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), false, AbilityVisualInfo.ShieldDownFlipbook);
 	}
 
-	if (USphereComponent* ShieldSphereComponent = Character->GetShieldSphereComponent())
+	if (USphereComponent* ShieldSphereComponent = GetShieldSphere(Character))
 	{
 		ShieldSphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		ShieldSphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
@@ -97,7 +98,7 @@ void UShieldAbility::OnShieldUpAnimEnded(bool bCompleted)
 		return;
 	}
 
-	if (USphereComponent* ShieldSphereComponent = Character->GetShieldSphereComponent())
+	if (USphereComponent* ShieldSphereComponent = GetShieldSphere(Character))
 	{
 		ShieldSphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		ShieldSphereComponent->SetCollisionResponseToAllChannels(ECR_Block);
@@ -106,9 +107,9 @@ void UShieldAbility::OnShieldUpAnimEnded(bool bCompleted)
 	}
 	GetWorld()->GetTimerManager().SetTimer(EndAbilityTimer, this, &ThisClass::EndAbility, MaxAbilityLength);
 	
-	if (Character->GetPaperFlipbookComponent())
+	if (GetShieldFlipbook(Character))
 	{
-		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), true, ShieldVisualInfo.ShieldActiveFlipbook);
+		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), true, AbilityVisualInfo.ShieldActiveFlipbook);
 	}
 }
 
@@ -124,4 +125,24 @@ void UShieldAbility::SetAndPlayFlipbookAnimation(UPaperFlipbookComponent* PaperF
 	PaperFlipbookComponent->SetLooping(bIsLopping);
 	PaperFlipbookComponent->SetFlipbook(Flipbook);
 	PaperFlipbookComponent->Play();
+}
+
+UPaperFlipbookComponent* UShieldAbility::GetShieldFlipbook(const APawn* Pawn) const
+{
+	if (const IShieldBearerInterface* ShieldBearer = Cast<IShieldBearerInterface>(Pawn))
+	{
+		return ShieldBearer->GetShieldFlipbookComponent();
+	}
+	
+	return nullptr;
+}
+
+USphereComponent* UShieldAbility::GetShieldSphere(const APawn* Pawn) const
+{
+	if (const IShieldBearerInterface* ShieldBearer = Cast<IShieldBearerInterface>(Pawn))
+	{
+		return ShieldBearer->GetShieldSphereComponent();
+	}
+	
+	return nullptr;
 }

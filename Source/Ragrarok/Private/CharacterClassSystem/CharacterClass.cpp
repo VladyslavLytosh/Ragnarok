@@ -8,6 +8,7 @@
 #include "PaperZDAnimationComponent.h"
 #include "PaperZDAnimInstance.h"
 #include "Characters/BaseCharacter.h"
+#include "Characters/Interfaces/WeaponHolderInterface.h"
 #include "Weapons/BaseWeaponInstance.h"
 
 void UCharacterClass::OnClassChanged(ABaseCharacter* Character)
@@ -23,9 +24,11 @@ void UCharacterClass::OnClassChanged(ABaseCharacter* Character)
 	{
 		AbilitySystemComponent->GiveToAbilitySystem(AbilitySet->AbilitiesToGrant);
 		PaperZdAnimationComponent->SetAnimInstanceClass(AnimInstanceClass);
-		if (CharacterWeaponClass)
+
+		IWeaponHolderInterface* WeaponHolder = Cast<IWeaponHolderInterface>(Character);
+		if (CharacterWeaponClass && WeaponHolder)
 		{
-			Character->SetCurrentEquippedWeapon(CharacterWeaponClass);
+			WeaponHolder->SetCurrentEquippedWeapon(CharacterWeaponClass);
 		}
 	}
 }

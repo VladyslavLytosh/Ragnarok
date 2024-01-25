@@ -2,14 +2,14 @@
 
 
 #include "AbilitySystem/Abilities/BaseWeaponAbility.h"
-
-#include "Characters/BaseCharacter.h"
+#include "Player/PlayerCharacter.h"
 
 UBaseWeaponInstance* UBaseWeaponAbility::GetCurrentEquippedWeaponInstance() const
 {
-	if(GetCurrentAbilityInfo().AvatarPawn)
+	if (const IWeaponHolderInterface* WeaponHolderInterface = Cast<IWeaponHolderInterface>(GetCurrentAbilityInfo().AvatarPawn))
 	{
-		return Cast<ABaseCharacter>(GetCurrentAbilityInfo().AvatarPawn)->GetCurrentEquippedWeapon();
+		return WeaponHolderInterface->GetCurrentEquippedWeapon();
 	}
+	
 	return nullptr;
 }

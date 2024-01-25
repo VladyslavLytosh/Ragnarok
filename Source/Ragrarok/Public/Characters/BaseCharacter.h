@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystem/AbilitySystemInterface.h"
 #include "PaperZDCharacter.h"
+#include "Interfaces/WeaponHolderInterface.h"
 #include "BaseCharacter.generated.h"
 
 class USphereComponent;
@@ -18,7 +19,7 @@ class UAbilitySet;
 class URagnarokInputComponent;
 
 UCLASS()
-class RAGRAROK_API ABaseCharacter : public APaperZDCharacter, public IAbilitySystemInterface
+class RAGRAROK_API ABaseCharacter : public APaperZDCharacter, public IAbilitySystemInterface, public IWeaponHolderInterface
 {
 	GENERATED_BODY()
 
@@ -36,10 +37,10 @@ public:
 	UBoxComponent* GetHitBoxComponent() const { return HitBoxComponent; }
 
 	UFUNCTION(BlueprintPure)
-	USphereComponent* GetShieldSphereComponent() const { return ShieldSphereComponent; }
-	
-	UFUNCTION(BlueprintPure)
-	UPaperFlipbookComponent* GetPaperFlipbookComponent() const { return ShieldFlipbookComponent; }
+	virtual UBaseWeaponInstance* GetCurrentEquippedWeapon() const override { return CurrentEquippedWeapon; }
+
+	UFUNCTION(BlueprintCallable)
+	virtual void SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass) override;
 	
 	UFUNCTION(BlueprintPure)
 	URagnarokAnimInstance* GetRagnarokAnimInstance() const;
@@ -48,13 +49,13 @@ public:
 
 	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass);
 	
-	void SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass);
-
-	UBaseWeaponInstance* GetCurrentEquippedWeapon() const { return CurrentEquippedWeapon; }
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:
+	UPROPERTY()
+	TObjectPtr<UBaseWeaponInstance> CurrentEquippedWeapon;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	
@@ -63,19 +64,10 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySet> DefaultAbilitySet;
-	
-	UPROPERTY()
-	TObjectPtr<UBaseWeaponInstance> CurrentEquippedWeapon;
-
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
-	TObjectPtr<UBoxComponent> HitBoxComponent;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UDeathComponent> DeathComponent;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
-	TObjectPtr<USphereComponent> ShieldSphereComponent;
-	
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
-	TObjectPtr<UPaperFlipbookComponent> ShieldFlipbookComponent;
+	TObjectPtr<UBoxComponent> HitBoxComponent;
 };

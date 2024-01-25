@@ -9,6 +9,7 @@
 
 class UPaperFlipbookComponent;
 class UPaperZDAnimSequence;
+class USphereComponent;
 
 USTRUCT(BlueprintType)
 struct FShieldVisualInfo
@@ -62,4 +63,9 @@ private:
 	FTimerHandle EndAbilityTimer;
 
 	void SetAndPlayFlipbookAnimation(UPaperFlipbookComponent* PaperFlipbookComponent, bool bIsLopping, UPaperFlipbook* Flipbook);
+
+	UFUNCTION(BlueprintPure)
+	UPaperFlipbookComponent* GetShieldFlipbook(const APawn* Pawn) const;
+	UFUNCTION(BlueprintPure)
+	USphereComponent* GetShieldSphere(const APawn* Pawn) const;
 };
