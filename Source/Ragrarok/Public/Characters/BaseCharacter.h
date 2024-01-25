@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystem/AbilitySystemInterface.h"
 #include "PaperZDCharacter.h"
+#include "Interfaces/WeaponHolderInterface.h"
 #include "BaseCharacter.generated.h"
 
 class USphereComponent;
@@ -18,7 +19,7 @@ class UAbilitySet;
 class URagnarokInputComponent;
 
 UCLASS()
-class RAGRAROK_API ABaseCharacter : public APaperZDCharacter, public IAbilitySystemInterface
+class RAGRAROK_API ABaseCharacter : public APaperZDCharacter, public IAbilitySystemInterface, public IWeaponHolderInterface
 {
 	GENERATED_BODY()
 
@@ -34,7 +35,12 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 	UBoxComponent* GetHitBoxComponent() const { return HitBoxComponent; }
-	
+
+	UFUNCTION(BlueprintPure)
+	virtual UBaseWeaponInstance* GetCurrentEquippedWeapon() const override { return CurrentEquippedWeapon; }
+
+	UFUNCTION(BlueprintCallable)
+	virtual void SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass) override;
 	
 	UFUNCTION(BlueprintPure)
 	URagnarokAnimInstance* GetRagnarokAnimInstance() const;
@@ -47,6 +53,9 @@ public:
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:
+	UPROPERTY()
+	TObjectPtr<UBaseWeaponInstance> CurrentEquippedWeapon;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	

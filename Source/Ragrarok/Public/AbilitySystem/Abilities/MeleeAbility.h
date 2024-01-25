@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseWeaponAbility.h"
 #include "AbilitySystem/AbilityBase.h"
 #include "Characters/BaseCharacter.h"
 #include "MeleeAbility.generated.h"
@@ -14,7 +15,7 @@ class UPaperZDAnimSequence;
  * Melee Ability class
  */
 UCLASS()
-class RAGRAROK_API UMeleeAbility : public UAbilityBase
+class RAGRAROK_API UMeleeAbility : public UBaseWeaponAbility
 {
 	GENERATED_BODY()
 
@@ -26,9 +27,6 @@ protected:
 
 	UFUNCTION()
 	void CheckHit();
-	
-	UPROPERTY(EditDefaultsOnly,Category="Animations")
-	UPaperZDAnimSequence* MeleeAttackAnimation;
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ABaseCharacter> CharacterClass;

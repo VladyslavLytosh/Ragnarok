@@ -13,6 +13,7 @@
 #include "Components/BoxComponent.h"
 #include "Data/CharacterDeathData.h"
 #include "Engine/DamageEvents.h"
+#include "Weapons/BaseWeaponInstance.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -50,6 +51,11 @@ void ABaseCharacter::BeginPlay()
 UCharacterClass* ABaseCharacter::GetCurrentCharacterClass() const
 {
 	return CharacterClassComponent->GetCurrentCharacterClass();
+}
+
+void ABaseCharacter::SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass)
+{
+	CurrentEquippedWeapon = NewObject<UBaseWeaponInstance>(this, CurrentEquippedWeaponClass);
 }
 
 URagnarokAnimInstance* ABaseCharacter::GetRagnarokAnimInstance() const

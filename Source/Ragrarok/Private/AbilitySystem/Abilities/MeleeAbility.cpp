@@ -8,27 +8,32 @@
 #include "Characters/BaseCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Weapons/BaseWeaponInstance.h"
 
 void UMeleeAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 {
 	Super::ActivateAbility(ActivationInfo);
 	
 	const ABaseCharacter* Character = Cast<ABaseCharacter>(ActivationInfo.AvatarPawn);
-	if (!Character || !MeleeAttackAnimation)
+	UBaseWeaponInstance* WeaponInstance = GetCurrentEquippedWeaponInstance();
+	
+	if (!Character || !WeaponInstance || !WeaponInstance->GetWeaponVisualData().FireAnimSequence)
 	{
 		EndAbility();
+		return;
 	}
 	
 	URagnarokAnimInstance* AnimInstance = Character->GetRagnarokAnimInstance();
 	if (!AnimInstance)
 	{
 		EndAbility();
+		return;
 	}
 
 	AnimInstance->AttackNotifyDelegate.AddDynamic(this,&ThisClass::CheckHit);
-	GetWorld()->GetTimerManager().SetTimer(EndAnimationTimerHandle,this,&ThisClass::EndAbility,MeleeAttackAnimation->GetTotalDuration());
+	GetWorld()->GetTimerManager().SetTimer(EndAnimationTimerHandle,this,&ThisClass::EndAbility,WeaponInstance->GetWeaponVisualData().FireAnimSequence->GetTotalDuration());
 
-	AnimInstance->PlayAnimationOverride(MeleeAttackAnimation);
+	AnimInstance->PlayAnimationOverride(WeaponInstance->GetWeaponVisualData().FireAnimSequence);
 }
 
 void UMeleeAbility::EndAbility()
