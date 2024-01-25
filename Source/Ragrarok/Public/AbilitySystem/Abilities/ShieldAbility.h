@@ -11,7 +11,7 @@ class UPaperFlipbookComponent;
 class UPaperZDAnimSequence;
 
 USTRUCT(BlueprintType)
-struct FAbilityVisualInfo
+struct FShieldVisualInfo
 {
 	GENERATED_BODY()
 
@@ -45,7 +45,7 @@ protected:
 	virtual void EndAbility() override;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Visual")
-	FAbilityVisualInfo AbilityVisualInfo;
+	FShieldVisualInfo ShieldVisualInfo;
 
 	UFUNCTION()
 	void OnShieldUpAnimEnded(bool bCompleted);

@@ -16,16 +16,19 @@ void UProjectile_FireAbility::ActivateAbility(const FAbilityInfo& ActivationInfo
 
 	if (!ActivationInfo.AvatarPawn)
 	{
+		EndAbility();
 		return;
 	}
 	const ABaseCharacter* Character = Cast<ABaseCharacter>(ActivationInfo.AvatarPawn);
 	if (!Character)
 	{
+		EndAbility();
 		return;
 	}
 	const UProjectileWeaponInstance* ProjectileWeaponInstance = Cast<UProjectileWeaponInstance>(GetCurrentEquippedWeaponInstance());
 	if (!ProjectileWeaponInstance)
 	{
+		EndAbility();
 		return;
 	}
 	URagnarokAnimInstance* AnimInstance = Character->GetRagnarokAnimInstance();
@@ -45,16 +48,19 @@ void UProjectile_FireAbility::WeaponFire()
 {
 	if (!GetCurrentAbilityInfo().AvatarPawn)
 	{
+		EndAbility();
 		return;
 	}
 	ABaseCharacter* Character = Cast<ABaseCharacter>(GetCurrentAbilityInfo().AvatarPawn);
 	if (!Character || !Character->GetSprite())
 	{
+		EndAbility();
 		return;
 	}
 	UProjectileWeaponInstance* ProjectileWeaponInstance = Cast<UProjectileWeaponInstance>(GetCurrentEquippedWeaponInstance());
 	if (!ProjectileWeaponInstance || !ProjectileWeaponInstance->GetProjectileWeaponData().ProjectileClass)
 	{
+		EndAbility();
 		return;
 	}
 	
@@ -69,20 +75,18 @@ void UProjectile_FireAbility::WeaponFire()
 
 void UProjectile_FireAbility::OnFireAnimEnded(bool bCompleted)
 {
-	if (bCompleted)
+	const ABaseCharacter* Character = Cast<ABaseCharacter>(GetCurrentAbilityInfo().AvatarPawn);
+	if (!Character)
 	{
-		const ABaseCharacter* Character = Cast<ABaseCharacter>(GetCurrentAbilityInfo().AvatarPawn);
-		if (!Character)
-		{
-			return;
-		}
-
-		if (URagnarokAnimInstance* AnimInstance = Character->GetRagnarokAnimInstance())
-		{
-			AnimInstance->AttackNotifyDelegate.Clear();
-		}
 		EndAbility();
+		return;
 	}
+
+	if (URagnarokAnimInstance* AnimInstance = Character->GetRagnarokAnimInstance())
+	{
+		AnimInstance->AttackNotifyDelegate.Clear();
+	}
+	EndAbility();
 }
 
 FTransform UProjectile_FireAbility::GetProjectileSpawnTransform(const ABaseCharacter* Character) const

@@ -14,7 +14,9 @@ void FRagnarokGameplayTags::AddTags()
 	AddTag(InputTag_Ability_Melee, "InputTag.Ability.Melee", "Melee ability input.");
 	AddTag(InputTag_Ability_Fire, "InputTag.Ability.Fire", "Fire ability input.");
 	AddTag(InputTag_Ability_Shield, "InputTag.Ability.Shield", "Shield ability input.");
+	AddTag(InputTag_Ability_ChainLightning, "InputTag.Ability.ChainLightning", "ChainLightning ability input.");
 	AddTag(Ability_ShieldActive, "Ability.Shield", "Shield active tag.");
+	AddTag(Ability_ChainLightning, "Ability.ChainLightning", "ChainLightning active tag.");
 }
 
 void FRagnarokGameplayTags::AddTag(FGameplayTag& OutTag, const ANSICHAR* TagName, const ANSICHAR* TagComment)

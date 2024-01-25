@@ -30,18 +30,18 @@ void UShieldAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 		return;
 	}
 	const URagnarokAnimInstance* AnimInstance = Character->GetRagnarokAnimInstance();
-	if (!AnimInstance || !AbilityVisualInfo.ShieldUpAnimSequence)
+	if (!AnimInstance || !ShieldVisualInfo.ShieldUpAnimSequence)
 	{
 		EndAbility();
 		return;
 	}
 	Character->GetAnimInstance()->PlayAnimationOverride(
-	AbilityVisualInfo.ShieldUpAnimSequence, "DefaultSlot", 1, 0,
+	ShieldVisualInfo.ShieldUpAnimSequence, "DefaultSlot", 1, 0,
 	FZDOnAnimationOverrideEndSignature::CreateUObject(this, &ThisClass::OnShieldUpAnimEnded));
 
 	if (Character->GetPaperFlipbookComponent())
 	{
-		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), false, AbilityVisualInfo.ShieldUpFlipbook);
+		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), false, ShieldVisualInfo.ShieldUpFlipbook);
 	}
 }
 
@@ -60,16 +60,16 @@ void UShieldAbility::EndAbility()
 		return;
 	}
 	const URagnarokAnimInstance* AnimInstance = Character->GetRagnarokAnimInstance();
-	if (!AnimInstance || !AbilityVisualInfo.ShieldDownAnimSequence)
+	if (!AnimInstance || !ShieldVisualInfo.ShieldDownAnimSequence)
 	{
 		return;
 	}
 	Character->GetAnimInstance()->PlayAnimationOverride(
-	AbilityVisualInfo.ShieldDownAnimSequence, "DefaultSlot", 1, 0);
+	ShieldVisualInfo.ShieldDownAnimSequence, "DefaultSlot", 1, 0);
 	
 	if (Character->GetPaperFlipbookComponent())
 	{
-		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), false, AbilityVisualInfo.ShieldDownFlipbook);
+		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), false, ShieldVisualInfo.ShieldDownFlipbook);
 	}
 
 	if (USphereComponent* ShieldSphereComponent = Character->GetShieldSphereComponent())
@@ -82,21 +82,18 @@ void UShieldAbility::EndAbility()
 	GetWorld()->GetTimerManager().ClearTimer(EndAbilityTimer);
 }
 
-
 void UShieldAbility::OnShieldUpAnimEnded(bool bCompleted)
 {
-	if (!bCompleted)
-	{
-		return;
-	}
 	APawn* AvatarPawn = GetCurrentAbilityInfo().AvatarPawn;
 	if (!AvatarPawn)
 	{
+		EndAbility();	
 		return;
 	}
 	const ABaseCharacter* Character = Cast<ABaseCharacter>(AvatarPawn);
 	if (!Character)
 	{
+		EndAbility();	
 		return;
 	}
 
@@ -111,14 +108,14 @@ void UShieldAbility::OnShieldUpAnimEnded(bool bCompleted)
 	
 	if (Character->GetPaperFlipbookComponent())
 	{
-		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), true, AbilityVisualInfo.ShieldActiveFlipbook);
+		SetAndPlayFlipbookAnimation(Character->GetPaperFlipbookComponent(), true, ShieldVisualInfo.ShieldActiveFlipbook);
 	}
 }
 
 void UShieldAbility::OnShieldBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	
+	// TODO : Shield protection impl
 }
 
 void UShieldAbility::SetAndPlayFlipbookAnimation(UPaperFlipbookComponent* PaperFlipbookComponent, bool bIsLopping,
