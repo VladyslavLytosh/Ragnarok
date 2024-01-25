@@ -34,12 +34,7 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 	UBoxComponent* GetHitBoxComponent() const { return HitBoxComponent; }
-
-	UFUNCTION(BlueprintPure)
-	USphereComponent* GetShieldSphereComponent() const { return ShieldSphereComponent; }
 	
-	UFUNCTION(BlueprintPure)
-	UPaperFlipbookComponent* GetPaperFlipbookComponent() const { return ShieldFlipbookComponent; }
 	
 	UFUNCTION(BlueprintPure)
 	URagnarokAnimInstance* GetRagnarokAnimInstance() const;
@@ -48,9 +43,6 @@ public:
 
 	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass);
 	
-	void SetCurrentEquippedWeapon(TSubclassOf<UBaseWeaponInstance> CurrentEquippedWeaponClass);
-
-	UBaseWeaponInstance* GetCurrentEquippedWeapon() const { return CurrentEquippedWeapon; }
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
@@ -63,19 +55,10 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category="AbilitySystem")
 	TObjectPtr<UAbilitySet> DefaultAbilitySet;
-	
-	UPROPERTY()
-	TObjectPtr<UBaseWeaponInstance> CurrentEquippedWeapon;
-
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
-	TObjectPtr<UBoxComponent> HitBoxComponent;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UDeathComponent> DeathComponent;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
-	TObjectPtr<USphereComponent> ShieldSphereComponent;
-	
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
-	TObjectPtr<UPaperFlipbookComponent> ShieldFlipbookComponent;
+	TObjectPtr<UBoxComponent> HitBoxComponent;
 };

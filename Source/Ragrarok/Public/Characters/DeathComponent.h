@@ -28,7 +28,7 @@ public:
 	bool IsCharacterDead() const {return bCharacterDead;}
 
 	UPROPERTY(BlueprintAssignable)
-	FDeathStartedDelegate OnCharacterDeathStarted;
+	FDeathStartedDelegate OnCharacterDeathStarted; 
 	UPROPERTY(BlueprintAssignable)
 	FDeathFinishedDelegate OnCharacterDeathFinished;
 	
