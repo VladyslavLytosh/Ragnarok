@@ -154,6 +154,18 @@ void UAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGamePau
 	InputReleasedAbilities.Reset();
 }
 
+void UAbilitySystemComponent::TryActivateAbilityByClass(TSubclassOf<UAbilityBase> AbilityClass)
+{
+	if (AbilityClass &&	CurrentAbilities.Contains(AbilityClass))
+	{
+		UAbilityBase* AbilityToActivate = CurrentAbilities[AbilityClass];
+		if (AbilityToActivate && !AbilityToActivate->IsAbilityActive())
+		{
+			TryActivateAbility(AbilityToActivate);
+		}
+	}
+}
+
 void UAbilitySystemComponent::TryActivateAbility(UAbilityBase* AbilityBase)
 {
 	if (!AbilityBase) return;

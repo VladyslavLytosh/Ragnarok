@@ -37,6 +37,8 @@ public:
 
 	void ProcessAbilityInput(float DeltaTime, bool bGamePaused);
 
+	UFUNCTION(BlueprintCallable)
+	void TryActivateAbilityByClass(TSubclassOf<UAbilityBase> AbilityClass);
 protected:
 	void TryActivateAbility(UAbilityBase* AbilityBase);
 	
