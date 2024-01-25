@@ -42,7 +42,7 @@ void UShieldAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 
 	if (GetShieldFlipbook(Character))
 	{
-		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), false, AbilityVisualInfo.ShieldUpFlipbook);
+		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), false, ShieldVisualInfo.ShieldUpFlipbook);
 	}
 }
 
@@ -70,7 +70,7 @@ void UShieldAbility::EndAbility()
 	
 	if (GetShieldFlipbook(Character))
 	{
-		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), false, AbilityVisualInfo.ShieldDownFlipbook);
+		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), false, ShieldVisualInfo.ShieldDownFlipbook);
 	}
 
 	if (USphereComponent* ShieldSphereComponent = GetShieldSphere(Character))
@@ -109,7 +109,7 @@ void UShieldAbility::OnShieldUpAnimEnded(bool bCompleted)
 	
 	if (GetShieldFlipbook(Character))
 	{
-		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), true, AbilityVisualInfo.ShieldActiveFlipbook);
+		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), true, ShieldVisualInfo.ShieldActiveFlipbook);
 	}
 }
 
