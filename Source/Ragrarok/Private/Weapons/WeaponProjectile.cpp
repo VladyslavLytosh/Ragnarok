@@ -39,14 +39,8 @@ void AWeaponProjectile::PostInitializeComponents()
 void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	ABaseCharacter* OwnerCharacter = Cast<ABaseCharacter>(GetOwner());
+	const ABaseCharacter* OwnerCharacter = Cast<ABaseCharacter>(GetOwner());
 	if (!OwnerCharacter || OtherActor == OwnerCharacter)
-	{
-		return;
-	}
-
-	ABaseCharacter* Character = Cast<ABaseCharacter>(OtherActor);
-	if (!Character)
 	{
 		return;
 	}
@@ -54,7 +48,7 @@ void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedC
 	if (ProjectileInfo.bIsDamageRadial)
 	{
 		TArray<AActor*> IgnoreActors;
-		IgnoreActors.Add(OwnerCharacter);
+		IgnoreActors.Add(GetOwner());
 		IgnoreActors.Add(this);
 		
 		UGameplayStatics::ApplyRadialDamage(this, ProjectileInfo.Damage, GetActorLocation(), ProjectileInfo.DamageRadius,
@@ -62,10 +56,9 @@ void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedC
 	}
 	else
 	{
-		UGameplayStatics::ApplyDamage(Character, ProjectileInfo.Damage, OwnerCharacter->GetController(),
+		UGameplayStatics::ApplyDamage(OtherActor, ProjectileInfo.Damage, OwnerCharacter->GetController(),
 										this, ProjectileInfo.DamageType);
 	}
-	
 	SpawnProjectileHitEffect();
 	Destroy();
 }
