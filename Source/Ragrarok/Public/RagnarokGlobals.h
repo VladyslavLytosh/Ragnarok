@@ -6,6 +6,7 @@
 #include "RagnarokGlobals.generated.h"
 
 class UPaperFlipbook;
+class UMaterialInterface;
 
 USTRUCT(BlueprintType)
 struct FDeathData
@@ -14,5 +15,7 @@ struct FDeathData
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 	UPaperFlipbook* DeathFlipbook;
-	
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TArray<UMaterialInterface*> BloodDecals;
 };
