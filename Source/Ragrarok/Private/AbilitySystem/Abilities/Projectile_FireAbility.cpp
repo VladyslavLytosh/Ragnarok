@@ -42,6 +42,8 @@ void UProjectile_FireAbility::ActivateAbility(const FAbilityInfo& ActivationInfo
 		FZDOnAnimationOverrideEndSignature::CreateUObject(this, &ThisClass::OnFireAnimEnded));
 	
 	AnimInstance->AttackNotifyDelegate.AddDynamic(this, &ThisClass::WeaponFire);
+	PlayCameraShake(ProjectileWeaponInstance->GetWeaponVisualData().FireCameraShake);
+	PlaySoundAtPawnLocation(ProjectileWeaponInstance->GetWeaponVisualData().FireSound);
 }
 
 void UProjectile_FireAbility::WeaponFire()

@@ -35,8 +35,19 @@ struct FWeaponVisualData
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Weapon|Fire")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Fire")
 	TObjectPtr<UPaperZDAnimSequence> FireAnimSequence;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Fire")
+	TSubclassOf<UCameraShakeBase> FireCameraShake;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Fire")
+	TObjectPtr<USoundBase> FireSound;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Fire")
+	TSubclassOf<UCameraShakeBase> HitCameraShake;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Fire")
+	TObjectPtr<USoundBase> HitSound;
 };
 
 UCLASS(Blueprintable)

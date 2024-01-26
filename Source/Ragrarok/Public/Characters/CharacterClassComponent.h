@@ -36,6 +36,13 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "ChangeClass Effect")
 	TObjectPtr<UPaperFlipbook> ChangeClassEffectFlipbook;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ChangeClass Effect")
+	TSubclassOf<UCameraShakeBase> ChangeClassCameraShake;
+
+	UPROPERTY(EditDefaultsOnly,Category = "ChangeClass Effect")
+	TObjectPtr<USoundBase> ChangeClassSound;
+
 	
 	UPROPERTY(EditAnywhere, Category = "ChangeClass Effect")
 	FVector EffectScale = FVector(3,3,3);

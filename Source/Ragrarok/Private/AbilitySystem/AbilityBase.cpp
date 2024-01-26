@@ -4,6 +4,7 @@
 #include "AbilitySystem/AbilityBase.h"
 
 #include "AbilitySystem/AbilitySystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 bool UAbilityBase::HasInputTag(const FGameplayTag& GameplayTag) const
 {
@@ -67,6 +68,7 @@ void UAbilityBase::EndAbility()
 	}
 }
 
+
 void UAbilityBase::OnCooldownStarted()
 {
 }
@@ -74,6 +76,24 @@ void UAbilityBase::OnCooldownStarted()
 void UAbilityBase::OnCooldownEnded()
 {
 }
+
+void UAbilityBase::PlaySoundAtPawnLocation(USoundBase* SoundBase)
+{
+	if (!SoundBase || !GetCurrentAbilityInfo().AvatarPawn) return;
+
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundBase,GetCurrentAbilityInfo().AvatarPawn->GetActorLocation(),GetCurrentAbilityInfo().AvatarPawn->GetActorRotation());
+}
+
+void UAbilityBase::PlayCameraShake(TSubclassOf<UCameraShakeBase> CameraShake)
+{
+	if (!CameraShake || !GetCurrentAbilityInfo().AvatarPawn || !GetCurrentAbilityInfo().AvatarPawn->GetController()) return;
+
+	APlayerController* PlayerController = Cast<APlayerController>(GetCurrentAbilityInfo().AvatarPawn->GetController());
+	if (!PlayerController) return;
+
+	PlayerController->ClientStartCameraShake(CameraShake);
+}
+
 
 void UAbilityBase::AddAbilityTags(UAbilitySystemComponent* AbilitySystemComponent)
 {

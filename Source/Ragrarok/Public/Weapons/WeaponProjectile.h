@@ -41,6 +41,18 @@ struct FProjectileDamageData
 	UPROPERTY(BlueprintReadOnly)
 	float DamageRadius;
 };
+
+USTRUCT(BlueprintType)
+struct FProjectileVisuals
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TObjectPtr<USoundBase> HitSound;
+	
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TSubclassOf<UCameraShakeBase> HitCameraShake; 
+};
 UCLASS()
 class RAGRAROK_API AWeaponProjectile : public AActor
 {
@@ -50,7 +62,7 @@ public:
 	AWeaponProjectile();
 
 	void SetProjectileDamageData(const FProjectileDamageData& ProjectileDamageData) {DamageData = ProjectileDamageData;}
-	
+	void SetProjectileVisuals(const FProjectileVisuals& Visuals) {ProjectileVisuals = Visuals;}
 protected:
 	virtual void PostInitializeComponents() override;
 	
@@ -62,6 +74,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TObjectPtr<UPaperFlipbookComponent> ProjectileSprite;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	FProjectileVisuals ProjectileVisuals;
 	
 	UFUNCTION()
 	void OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedComponent,

@@ -59,6 +59,18 @@ void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedC
 		UGameplayStatics::ApplyDamage(OtherActor, DamageData.BaseDamage, OwnerCharacter->GetController(),
 										this, DamageData.DamageType);
 	}
+	if (ProjectileVisuals.HitSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(),ProjectileVisuals.HitSound,GetActorLocation(),GetActorRotation());
+	}
+	if (ProjectileVisuals.HitCameraShake)
+	{
+		if (APlayerController* PlayerController = Cast<APlayerController>(OwnerCharacter->GetController()))
+		{
+			PlayerController->ClientStartCameraShake(ProjectileVisuals.HitCameraShake);
+		}
+	}
+	
 	SpawnProjectileHitEffect();
 	Destroy();
 }

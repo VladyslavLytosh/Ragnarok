@@ -33,8 +33,11 @@ void UMeleeAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 
 	AnimInstance->AttackNotifyDelegate.AddDynamic(this,&ThisClass::CheckHit);
 	GetWorld()->GetTimerManager().SetTimer(EndAnimationTimerHandle,this,&ThisClass::EndAbility,WeaponInstance->GetWeaponVisualData().FireAnimSequence->GetTotalDuration());
-
+	
 	AnimInstance->PlayAnimationOverride(WeaponInstance->GetWeaponVisualData().FireAnimSequence);
+	
+	PlayCameraShake(WeaponInstance->GetWeaponVisualData().FireCameraShake);
+	PlaySoundAtPawnLocation(WeaponInstance->GetWeaponVisualData().FireSound);
 }
 
 void UMeleeAbility::EndAbility()
@@ -66,6 +69,7 @@ void UMeleeAbility::ApplyMeleeAttackToTarget(ABaseCharacter* InstigatorCharacter
 
 	
 	UGameplayStatics::ApplyDamage(TargetCharacter,WeaponInstance->GetBaseWeaponData().BaseDamage,InstigatorCharacter->GetController(),InstigatorCharacter,WeaponInstance->GetBaseWeaponData().DamageType);
+	PlaySoundAtPawnLocation(WeaponInstance->GetWeaponVisualData().HitSound);
 }
 
 void UMeleeAbility::CheckHit()

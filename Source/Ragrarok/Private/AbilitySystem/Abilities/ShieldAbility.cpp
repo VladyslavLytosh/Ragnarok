@@ -40,6 +40,8 @@ void UShieldAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 	ShieldVisualInfo.ShieldUpAnimSequence, "DefaultSlot", 1, 0,
 	FZDOnAnimationOverrideEndSignature::CreateUObject(this, &ThisClass::OnShieldUpAnimEnded));
 
+	PlayCameraShake(ShieldVisualInfo.ShieldUpCameraShake);
+	PlaySoundAtPawnLocation(ShieldVisualInfo.ShieldUpSound);
 	if (GetShieldFlipbook(Character))
 	{
 		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), false, ShieldVisualInfo.ShieldUpFlipbook);
@@ -72,6 +74,8 @@ void UShieldAbility::EndAbility()
 	{
 		SetAndPlayFlipbookAnimation(GetShieldFlipbook(Character), false, ShieldVisualInfo.ShieldDownFlipbook);
 	}
+	PlayCameraShake(ShieldVisualInfo.ShieldDownCameraShake);
+	PlaySoundAtPawnLocation(ShieldVisualInfo.ShieldDownSound);
 
 	if (USphereComponent* ShieldSphereComponent = GetShieldSphere(Character))
 	{
