@@ -32,7 +32,7 @@ private:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Health",meta=(AllowPrivateAccess=true,ClampMin=0.f,UIMin=0.f))
 	float MaxHealth = 100.f;
 
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Health",meta=(AllowPrivateAccess=true,ClampMin=0.f))
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Health",meta=(AllowPrivateAccess=true,ClampMin=0.f))
 	float CurrentHealth;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, meta=(AllowPrivateAccess=true))

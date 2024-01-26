@@ -8,9 +8,9 @@ public class Ragrarok : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput","AIModule","AIGraph"});
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "AIModule" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "ModularGameplay" , "GameplayTags", "PaperZD", "Paper2D"});
+		PrivateDependencyModuleNames.AddRange(new string[] { "ModularGameplay" , "GameplayTags", "PaperZD", "Paper2D", "Niagara" });
 
         
 		// Uncomment if you are using Slate UI
