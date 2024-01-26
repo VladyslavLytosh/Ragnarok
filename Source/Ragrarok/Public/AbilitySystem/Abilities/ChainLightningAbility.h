@@ -49,6 +49,16 @@ struct FChainLightningVisualInfo
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Ability Visual")
 	TObjectPtr<UPaperZDAnimSequence> CastEndAnimSequence;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UCameraShakeBase> StartChainCameraShake;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Ability Visual")
+	TObjectPtr<USoundBase> StartChainSound;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Ability Visual")
+	TSubclassOf<UCameraShakeBase> ChainDamageCameraShake;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Ability Visual")
+	TObjectPtr<USoundBase> ChainDamageSound;
 };
 
 UCLASS()

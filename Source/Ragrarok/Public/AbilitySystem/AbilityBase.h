@@ -79,6 +79,11 @@ protected:
 	UFUNCTION()
 	virtual void OnCooldownEnded();
 
+	//helpers
+	UFUNCTION(BlueprintCallable)
+	void PlaySoundAtPawnLocation(USoundBase* SoundBase);
+	UFUNCTION(BlueprintCallable)
+	void PlayCameraShake(TSubclassOf<UCameraShakeBase> CameraShake);
 private:
 	void AddAbilityTags(UAbilitySystemComponent* AbilitySystemComponent);
 	void RemoveAbilityTags(UAbilitySystemComponent* AbilitySystemComponent);

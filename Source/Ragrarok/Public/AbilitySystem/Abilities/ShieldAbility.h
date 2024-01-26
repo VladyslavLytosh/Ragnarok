@@ -30,6 +30,16 @@ struct FShieldVisualInfo
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Ability Visual")
 	TObjectPtr<UPaperFlipbook> ShieldActiveFlipbook;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UCameraShakeBase> ShieldUpCameraShake;
+	UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<UCameraShakeBase> ShieldDownCameraShake;
+    
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<USoundBase> ShieldUpSound;
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<USoundBase> ShieldDownSound;
 };
 
 UCLASS()
@@ -58,7 +68,6 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Settings", meta=(Units = "s"))
 	int32 MaxAbilityLength = 10;
-	
 private:
 	FTimerHandle EndAbilityTimer;
 

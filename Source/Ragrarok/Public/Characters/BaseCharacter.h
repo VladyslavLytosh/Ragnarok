@@ -49,7 +49,6 @@ public:
 
 	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass);
 	
-
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:
@@ -70,4 +69,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
 	TObjectPtr<UBoxComponent> HitBoxComponent;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,Category="Damage")
+	TObjectPtr<USoundBase> HurtSound;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,Category="Damage")
+	TObjectPtr<USoundBase> DeathSound;
 };

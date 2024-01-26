@@ -15,26 +15,44 @@ USTRUCT()
 struct FProjectileInfo
 {
 	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile damage info", meta=(AllowPrivateAccess=true))
-	int32 Damage;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile damage info", meta=(AllowPrivateAccess=true))
-	TSubclassOf<UDamageType> DamageType;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile visual info", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UPaperFlipbook> ProjectileHitEffect;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile visual info", meta=(AllowPrivateAccess=true))
 	FVector ProjectileHitEffectScale3D = FVector(2,2,2);
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile visual info", meta=(AllowPrivateAccess=true))
-	bool bIsDamageRadial = false;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile damage info", meta=(AllowPrivateAccess=true, EditCondition = "bIsDamageRadial"))
-	int32 DamageRadius;
 };
 
+USTRUCT(BlueprintType)
+struct FProjectileDamageData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly)
+	float BaseDamage;
+	
+	UPROPERTY(BlueprintReadOnly)
+	TSubclassOf<UDamageType> DamageType;
+	
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsDamageRadial;
+
+	UPROPERTY(BlueprintReadOnly)
+	float DamageRadius;
+};
+
+USTRUCT(BlueprintType)
+struct FProjectileVisuals
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TObjectPtr<USoundBase> HitSound;
+	
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TSubclassOf<UCameraShakeBase> HitCameraShake; 
+};
 UCLASS()
 class RAGRAROK_API AWeaponProjectile : public AActor
 {
@@ -42,7 +60,9 @@ class RAGRAROK_API AWeaponProjectile : public AActor
 
 public:
 	AWeaponProjectile();
-	
+
+	void SetProjectileDamageData(const FProjectileDamageData& ProjectileDamageData) {DamageData = ProjectileDamageData;}
+	void SetProjectileVisuals(const FProjectileVisuals& Visuals) {ProjectileVisuals = Visuals;}
 protected:
 	virtual void PostInitializeComponents() override;
 	
@@ -54,6 +74,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TObjectPtr<UPaperFlipbookComponent> ProjectileSprite;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	FProjectileVisuals ProjectileVisuals;
 	
 	UFUNCTION()
 	void OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedComponent,
@@ -63,6 +86,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile info")
 	FProjectileInfo ProjectileInfo;
 
+	UPROPERTY(BlueprintReadOnly)
+	FProjectileDamageData DamageData;
 private:
 	FTransform GetProjectileHitEffectSpawnTransform() const;
 

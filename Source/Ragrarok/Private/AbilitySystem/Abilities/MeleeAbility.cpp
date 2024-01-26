@@ -9,13 +9,14 @@
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Weapons/BaseWeaponInstance.h"
+#include "Weapons/MeleeWeaponInstance.h"
 
 void UMeleeAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 {
 	Super::ActivateAbility(ActivationInfo);
 	
 	const ABaseCharacter* Character = Cast<ABaseCharacter>(ActivationInfo.AvatarPawn);
-	UBaseWeaponInstance* WeaponInstance = GetCurrentEquippedWeaponInstance();
+	UMeleeWeaponInstance* WeaponInstance = Cast<UMeleeWeaponInstance>(GetCurrentEquippedWeaponInstance());
 	
 	if (!Character || !WeaponInstance || !WeaponInstance->GetWeaponVisualData().FireAnimSequence)
 	{
@@ -32,8 +33,11 @@ void UMeleeAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 
 	AnimInstance->AttackNotifyDelegate.AddDynamic(this,&ThisClass::CheckHit);
 	GetWorld()->GetTimerManager().SetTimer(EndAnimationTimerHandle,this,&ThisClass::EndAbility,WeaponInstance->GetWeaponVisualData().FireAnimSequence->GetTotalDuration());
-
+	
 	AnimInstance->PlayAnimationOverride(WeaponInstance->GetWeaponVisualData().FireAnimSequence);
+	
+	PlayCameraShake(WeaponInstance->GetWeaponVisualData().FireCameraShake);
+	PlaySoundAtPawnLocation(WeaponInstance->GetWeaponVisualData().FireSound);
 }
 
 void UMeleeAbility::EndAbility()
@@ -57,7 +61,7 @@ void UMeleeAbility::ApplyMeleeAttackToTarget(ABaseCharacter* InstigatorCharacter
 {
 	UE_LOG(LogTemp,Display,TEXT("Attacked character: %s"),*TargetCharacter->GetName());
 
-	UBaseWeaponInstance* WeaponInstance = GetCurrentEquippedWeaponInstance();
+	UMeleeWeaponInstance* WeaponInstance = Cast<UMeleeWeaponInstance>(GetCurrentEquippedWeaponInstance());
 	if (!WeaponInstance)
 	{
 		return;
@@ -65,6 +69,7 @@ void UMeleeAbility::ApplyMeleeAttackToTarget(ABaseCharacter* InstigatorCharacter
 
 	
 	UGameplayStatics::ApplyDamage(TargetCharacter,WeaponInstance->GetBaseWeaponData().BaseDamage,InstigatorCharacter->GetController(),InstigatorCharacter,WeaponInstance->GetBaseWeaponData().DamageType);
+	PlaySoundAtPawnLocation(WeaponInstance->GetWeaponVisualData().HitSound);
 }
 
 void UMeleeAbility::CheckHit()
@@ -80,9 +85,16 @@ void UMeleeAbility::CheckHit()
 	{
 		return;
 	}
+
+	UMeleeWeaponInstance* WeaponInstance = Cast<UMeleeWeaponInstance>(GetCurrentEquippedWeaponInstance());
+	if (!WeaponInstance)
+	{
+		return;
+	}
+
 	
 	TArray<AActor*> OverlappedActors;
-	HitBox->GetOverlappingActors(OverlappedActors,CharacterClass);
+	HitBox->GetOverlappingActors(OverlappedActors,WeaponInstance->GetOverlappingActorsClass());
 
 	for (AActor* OverlappedActor : OverlappedActors)
 	{

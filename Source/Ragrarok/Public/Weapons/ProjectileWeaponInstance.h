@@ -14,6 +14,12 @@ struct FProjectileWeaponData
 
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	TSubclassOf<AWeaponProjectile> ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Damage")
+	bool bIsDamageRadial;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Damage",meta=(EditCondition="bIsDamageRadial"))
+	float DamageRadius;
 };
 
 UCLASS()
@@ -23,7 +29,7 @@ class RAGRAROK_API UProjectileWeaponInstance : public UBaseWeaponInstance
 
 public:
 	const FProjectileWeaponData& GetProjectileWeaponData() const { return ProjectileWeaponData; }
-	
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile Weapon data")
 	FProjectileWeaponData ProjectileWeaponData;

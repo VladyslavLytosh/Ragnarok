@@ -42,6 +42,8 @@ void UProjectile_FireAbility::ActivateAbility(const FAbilityInfo& ActivationInfo
 		FZDOnAnimationOverrideEndSignature::CreateUObject(this, &ThisClass::OnFireAnimEnded));
 	
 	AnimInstance->AttackNotifyDelegate.AddDynamic(this, &ThisClass::WeaponFire);
+	PlayCameraShake(ProjectileWeaponInstance->GetWeaponVisualData().FireCameraShake);
+	PlaySoundAtPawnLocation(ProjectileWeaponInstance->GetWeaponVisualData().FireSound);
 }
 
 void UProjectile_FireAbility::WeaponFire()
@@ -63,9 +65,18 @@ void UProjectile_FireAbility::WeaponFire()
 		EndAbility();
 		return;
 	}
-	
-	if (AWeaponProjectile* ProjectileActor = GetWorld()->SpawnActorDeferred<AWeaponProjectile>(ProjectileWeaponInstance->GetProjectileWeaponData().ProjectileClass, FTransform::Identity))
+
+	const FProjectileWeaponData& ProjectileWeaponData = ProjectileWeaponInstance->GetProjectileWeaponData();
+	if (AWeaponProjectile* ProjectileActor = GetWorld()->SpawnActorDeferred<AWeaponProjectile>(ProjectileWeaponData.ProjectileClass, FTransform::Identity))
 	{
+		FProjectileDamageData DamageData;
+		DamageData.bIsDamageRadial = ProjectileWeaponData.bIsDamageRadial;
+		DamageData.DamageRadius = ProjectileWeaponData.DamageRadius;
+
+		DamageData.BaseDamage = ProjectileWeaponInstance->GetBaseWeaponData().BaseDamage;
+		DamageData.DamageType = ProjectileWeaponInstance->GetBaseWeaponData().DamageType;
+		
+		ProjectileActor->SetProjectileDamageData(DamageData);
 		ProjectileActor->SetOwner(Character);
 		ProjectileActor->FinishSpawning(GetProjectileSpawnTransform(Character));
 	}

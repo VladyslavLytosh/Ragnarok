@@ -9,6 +9,7 @@
 #include "PaperFlipbook.h"
 #include "AbilitySystem/AbilitySet.h"
 #include "AbilitySystem/AbilitySystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Subsystems/SpriteEffectsManagerSubsystem.h"
 
 UCharacterClassComponent::UCharacterClassComponent(const FObjectInitializer& ObjectInitializer)
@@ -51,6 +52,17 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 																	   SpawnTransform, GetOwner(), GetOwner(),
 																	   FAttachmentTransformRules::KeepWorldTransform,
 																	   ChangeClassEffectFlipbook->GetTotalDuration());
+		}
+		if (ChangeClassCameraShake)
+		{
+			if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
+			{
+				PlayerController->ClientStartCameraShake(ChangeClassCameraShake);
+			}
+		}
+		if (ChangeClassSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(),ChangeClassSound,Character->GetActorLocation(),Character->GetActorRotation());
 		}
 	}
 }

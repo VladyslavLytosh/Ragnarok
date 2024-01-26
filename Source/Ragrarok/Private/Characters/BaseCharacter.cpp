@@ -13,6 +13,7 @@
 #include "Components/BoxComponent.h"
 #include "Data/CharacterDeathData.h"
 #include "Engine/DamageEvents.h"
+#include "Kismet/GameplayStatics.h"
 #include "Weapons/BaseWeaponInstance.h"
 
 ABaseCharacter::ABaseCharacter()
@@ -98,7 +99,12 @@ float ABaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageE
 				DeathComponent->SetDeathData(CharacterDeathData->GetDeathDataByDamageType(DamageEvent.DamageTypeClass));
 			}
 		}
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(),DeathSound,GetActorLocation(),GetActorRotation());
 		DeathComponent->OnDeathStarted();
+	}
+	else
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(),HurtSound,GetActorLocation(),GetActorRotation());
 	}
 	
 	return SuperResult;

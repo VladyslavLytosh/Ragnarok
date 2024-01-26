@@ -51,6 +51,9 @@ void UChainLightningAbility::StartCast()
 		EndAbility();
 		return;
 	}
+
+	PlayCameraShake(ChainLightningVisualInfo.StartChainCameraShake);
+	PlaySoundAtPawnLocation(ChainLightningVisualInfo.StartChainSound);
 	
 	FHitResult OutHitResult;
 	const FVector Start = Character->GetActorLocation();
@@ -190,4 +193,6 @@ void UChainLightningAbility::ChainToNextTarget(const AActor* NextTarget,
 void UChainLightningAbility::DecreaseDamage(int32& OutDamage, const int32& DecreaseAmount, const int32 MinDamage)
 {
 	OutDamage = FMath::Max(MinDamage, OutDamage - DecreaseAmount);
+	PlayCameraShake(ChainLightningVisualInfo.ChainDamageCameraShake);
+	PlaySoundAtPawnLocation(ChainLightningVisualInfo.ChainDamageSound);
 }

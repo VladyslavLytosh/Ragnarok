@@ -45,20 +45,32 @@ void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedC
 		return;
 	}
 	
-	if (ProjectileInfo.bIsDamageRadial)
+	if (DamageData.bIsDamageRadial)
 	{
 		TArray<AActor*> IgnoreActors;
 		IgnoreActors.Add(GetOwner());
 		IgnoreActors.Add(this);
 		
-		UGameplayStatics::ApplyRadialDamage(this, ProjectileInfo.Damage, GetActorLocation(), ProjectileInfo.DamageRadius,
-										ProjectileInfo.DamageType, IgnoreActors);
+		UGameplayStatics::ApplyRadialDamage(this, DamageData.BaseDamage, GetActorLocation(), DamageData.DamageRadius,
+										DamageData.DamageType, IgnoreActors);
 	}
 	else
 	{
-		UGameplayStatics::ApplyDamage(OtherActor, ProjectileInfo.Damage, OwnerCharacter->GetController(),
-										this, ProjectileInfo.DamageType);
+		UGameplayStatics::ApplyDamage(OtherActor, DamageData.BaseDamage, OwnerCharacter->GetController(),
+										this, DamageData.DamageType);
 	}
+	if (ProjectileVisuals.HitSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(),ProjectileVisuals.HitSound,GetActorLocation(),GetActorRotation());
+	}
+	if (ProjectileVisuals.HitCameraShake)
+	{
+		if (APlayerController* PlayerController = Cast<APlayerController>(OwnerCharacter->GetController()))
+		{
+			PlayerController->ClientStartCameraShake(ProjectileVisuals.HitCameraShake);
+		}
+	}
+	
 	SpawnProjectileHitEffect();
 	Destroy();
 }

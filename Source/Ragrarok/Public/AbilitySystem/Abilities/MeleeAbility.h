@@ -27,9 +27,6 @@ protected:
 
 	UFUNCTION()
 	void CheckHit();
-	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ABaseCharacter> CharacterClass;
 
 	UPROPERTY()
 	FTimerHandle EndAnimationTimerHandle;
