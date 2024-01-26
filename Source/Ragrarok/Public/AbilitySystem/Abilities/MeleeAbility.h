@@ -30,11 +30,6 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ABaseCharacter> CharacterClass;
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UDamageType> DamageType;
-	
-	UPROPERTY(EditDefaultsOnly)
-	float DamageAmount;
 
 	UPROPERTY()
 	FTimerHandle EndAnimationTimerHandle;

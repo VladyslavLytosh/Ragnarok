@@ -21,7 +21,13 @@ struct FBaseWeaponData
 	FText WeaponDisplayName;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Weapon|Fire")
-	int32 FireRate = 2.0;
+	float FireRate = 2.0;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Weapon|Damage")
+	float BaseDamage;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon|Damage", meta=(AllowPrivateAccess=true))
+	TSubclassOf<UDamageType> DamageType;
 };
 
 USTRUCT(BlueprintType)

@@ -57,7 +57,14 @@ void UMeleeAbility::ApplyMeleeAttackToTarget(ABaseCharacter* InstigatorCharacter
 {
 	UE_LOG(LogTemp,Display,TEXT("Attacked character: %s"),*TargetCharacter->GetName());
 
-	UGameplayStatics::ApplyDamage(TargetCharacter,DamageAmount,InstigatorCharacter->GetController(),InstigatorCharacter,DamageType);
+	UBaseWeaponInstance* WeaponInstance = GetCurrentEquippedWeaponInstance();
+	if (!WeaponInstance)
+	{
+		return;
+	}
+
+	
+	UGameplayStatics::ApplyDamage(TargetCharacter,WeaponInstance->GetBaseWeaponData().BaseDamage,InstigatorCharacter->GetController(),InstigatorCharacter,WeaponInstance->GetBaseWeaponData().DamageType);
 }
 
 void UMeleeAbility::CheckHit()
