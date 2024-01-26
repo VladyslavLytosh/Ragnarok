@@ -8,6 +8,8 @@
 #include "UObject/Object.h"
 #include "AbilityBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityCooldownStarted, float, CooldownRate);
+
 /**
  * Base ability class
  */
@@ -33,8 +35,13 @@ public:
 	virtual void OnAbilityRemoved();
 	bool IsAbilityActive() const {return bIsAbilityActive;}
 
+	bool ShouldDisplayOnUI() const { return bShouldDisplayOnUI; };
+
 	UFUNCTION(BlueprintPure)
 	TEnumAsByte<EAbilityActivationPolicy> GetAbilityActivationPolicy() const {return AbilityActivationPolicy;}
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAbilityCooldownStarted OnAbilityCooldownStarted;
 	
 protected:
 	//applies when ability activates
@@ -50,12 +57,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly,Category="Input")
 	TEnumAsByte<EAbilityActivationPolicy> AbilityActivationPolicy;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Cooldown")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Cooldown")
 	TEnumAsByte<EAbilityCooldownType> AbilityCooldownType;
-	UPROPERTY(EditDefaultsOnly, Category = "Cooldown",meta=(Units = "s", EditCondition="AbilityCooldownType != EAbilityCooldownType::None"))
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Cooldown",meta=(Units = "s", EditCondition="AbilityCooldownType != EAbilityCooldownType::None"))
 	float CooldownRate;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Cooldown", meta=(EditCondition="AbilityCooldownType != EAbilityCooldownType::None"))
+	bool bShouldDisplayOnUI;
 	
 	virtual void ActivateAbility(const FAbilityInfo& ActivationInfo);
+	
 	UFUNCTION(BlueprintImplementableEvent)
 	void K2_ActivateAbility(const FAbilityInfo& ActivationInfo);
 	

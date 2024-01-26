@@ -26,6 +26,7 @@ void UCharacterClassComponent::BeginPlay()
 		if (CurrentCharacterClass)
 		{
 			CurrentCharacterClass->OnClassChanged(Cast<ABaseCharacter>(GetOwner()));
+			OnClassChanged.Broadcast(CurrentCharacterClass);
 		}
 	}
 }
@@ -38,6 +39,8 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 		CurrentCharacterClass = InCurrentCharacterClass;
 		CurrentCharacterClass->OnClassChanged(Character);
 		
+		OnClassChanged.Broadcast(CurrentCharacterClass);
+		
 		if (USpriteEffectsManagerSubsystem* SpriteEffectsManagerSubsystem = USpriteEffectsManagerSubsystem::Get(this))
 		{
 			FTransform SpawnTransform;
@@ -45,9 +48,9 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 			SpawnTransform.SetRotation(FRotator(0, 0, -90).Quaternion());
 			SpawnTransform.SetScale3D(EffectScale);
 			SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(ChangeClassEffectFlipbook,
-			                                                           SpawnTransform, GetOwner(), GetOwner(),
-			                                                           FAttachmentTransformRules::KeepWorldTransform,
-			                                                           ChangeClassEffectFlipbook->GetTotalDuration());
+																	   SpawnTransform, GetOwner(), GetOwner(),
+																	   FAttachmentTransformRules::KeepWorldTransform,
+																	   ChangeClassEffectFlipbook->GetTotalDuration());
 		}
 	}
 }

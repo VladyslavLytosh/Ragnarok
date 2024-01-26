@@ -11,6 +11,8 @@
 class UCharacterClass;
 class UPaperFlipbook;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnClassChanged, UCharacterClass*, CurrentCharacterClass);
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class RAGRAROK_API UCharacterClassComponent : public UPawnComponent
 {
@@ -26,6 +28,9 @@ public:
 	const TArray<TSubclassOf<UCharacterClass>>& GetAvailableCharacterClasses() const { return AvailableCharacterClasses; }
 
 	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass, ABaseCharacter* Character);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnClassChanged OnClassChanged;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Character Class")

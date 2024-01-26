@@ -16,6 +16,6 @@ class RAGRAROK_API UAbilitySet : public UDataAsset
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(EditDefaultsOnly,Category="Abilities")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Abilities")
 	TArray<FAbilityClass> AbilitiesToGrant;
 };

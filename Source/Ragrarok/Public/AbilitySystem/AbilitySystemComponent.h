@@ -39,11 +39,15 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void TryActivateAbilityByClass(TSubclassOf<UAbilityBase> AbilityClass);
+	
 protected:
 	void TryActivateAbility(UAbilityBase* AbilityBase);
+
+	UFUNCTION(BlueprintPure)
+	UAbilityBase* GetFirstShouldDisplayOnUIAbility();
 	
 private:
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess = true))
 	TMap<TSubclassOf<UAbilityBase>,UAbilityBase*> CurrentAbilities;
 
 	TArray<TWeakObjectPtr<UAbilityBase>> InputPressedAbilities;

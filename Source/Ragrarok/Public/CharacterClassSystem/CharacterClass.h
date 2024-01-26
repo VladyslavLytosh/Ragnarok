@@ -41,4 +41,10 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,Category="Death")
 	TObjectPtr<UCharacterDeathData> CharacterDeathData;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Name")
+	FText CharacterClassDisplayName;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Name")
+	FName CharacterClassName;
 };

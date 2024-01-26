@@ -69,6 +69,7 @@ void UAbilityBase::EndAbility()
 
 void UAbilityBase::OnCooldownStarted()
 {
+	OnAbilityCooldownStarted.Broadcast(CooldownRate);
 }
 
 void UAbilityBase::OnCooldownEnded()
