@@ -23,15 +23,10 @@ ABaseCharacter::ABaseCharacter()
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	CharacterClassComponent = CreateDefaultSubobject<UCharacterClassComponent>(TEXT("CharacterClassComponent"));
 	HitBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBoxComponent"));
-
-
+	
 	HitBoxComponent->SetupAttachment(GetSprite());
 	
-
-	
 	DeathComponent = CreateDefaultSubobject<UDeathComponent>(TEXT("DeathComponent"));
-
-
 }
 
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
@@ -77,6 +72,11 @@ void ABaseCharacter::SetCurrentCharacterClass(UCharacterClass* InCurrentCharacte
 float ABaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
 	AActor* DamageCauser)
 {
+	if (!bReceiveDamage)
+	{
+		return 0;
+	}
+	
 	const float SuperResult = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	
 	UHealthComponent* HealthComponent = FindComponentByClass<UHealthComponent>();

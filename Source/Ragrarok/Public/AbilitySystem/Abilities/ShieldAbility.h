@@ -75,6 +75,4 @@ private:
 
 	UFUNCTION(BlueprintPure)
 	UPaperFlipbookComponent* GetShieldFlipbook(const APawn* Pawn) const;
-	UFUNCTION(BlueprintPure)
-	USphereComponent* GetShieldSphere(const APawn* Pawn) const;
 };
