@@ -92,6 +92,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FNoiseReportData NoiseReportData;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="ClassFilter")
+	TSubclassOf<AActor> ClassFilter;
 private:
 	FTransform GetProjectileHitEffectSpawnTransform() const;
 

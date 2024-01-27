@@ -10,6 +10,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Perception/AISense_Hearing.h"
+#include "Player/PlayerCharacter.h"
 #include "Subsystems/SpriteEffectsManagerSubsystem.h"
 
 
@@ -42,6 +43,11 @@ void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedC
 {
 	ABaseCharacter* OwnerCharacter = Cast<ABaseCharacter>(GetOwner());
 	if (!OwnerCharacter || OtherActor == OwnerCharacter)
+	{
+		return;
+	}
+
+	if (ClassFilter && !OtherActor->IsA(ClassFilter))
 	{
 		return;
 	}
