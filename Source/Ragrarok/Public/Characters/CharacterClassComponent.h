@@ -27,6 +27,7 @@ public:
 
 	const TArray<TSubclassOf<UCharacterClass>>& GetAvailableCharacterClasses() const { return AvailableCharacterClasses; }
 
+	UFUNCTION(BlueprintCallable)
 	void SetCurrentCharacterClass(UCharacterClass* InCurrentCharacterClass, ABaseCharacter* Character);
 
 	UPROPERTY(BlueprintAssignable)

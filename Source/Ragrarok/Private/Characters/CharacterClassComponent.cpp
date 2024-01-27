@@ -39,20 +39,23 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 		RemovePreviousClassAbilities(Character);
 		CurrentCharacterClass = InCurrentCharacterClass;
 		CurrentCharacterClass->OnClassChanged(Character);
-		
+
 		OnClassChanged.Broadcast(CurrentCharacterClass);
-		
-		if (USpriteEffectsManagerSubsystem* SpriteEffectsManagerSubsystem = USpriteEffectsManagerSubsystem::Get(this))
+
+		if (ChangeClassEffectFlipbook)
 		{
-			FTransform SpawnTransform;
-			SpawnTransform.SetLocation(GetOwner()->GetActorLocation());
-			SpawnTransform.SetRotation(FRotator(0, 0, -90).Quaternion());
-			SpawnTransform.SetScale3D(EffectScale);
-			SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(ChangeClassEffectFlipbook,
-																	   SpawnTransform, GetOwner(), GetOwner(),
-																	   FAttachmentTransformRules::KeepWorldTransform,
-																	   ChangeClassEffectFlipbook->GetTotalDuration());
-		}
+			if (USpriteEffectsManagerSubsystem* SpriteEffectsManagerSubsystem = USpriteEffectsManagerSubsystem::Get(this))
+			{
+				FTransform SpawnTransform;
+				SpawnTransform.SetLocation(GetOwner()->GetActorLocation());
+				SpawnTransform.SetRotation(FRotator(0, 0, -90).Quaternion());
+				SpawnTransform.SetScale3D(EffectScale);
+				SpriteEffectsManagerSubsystem->SpawnSpriteEffectAtLocation(ChangeClassEffectFlipbook,
+																		   SpawnTransform, GetOwner(), GetOwner(),
+																		   FAttachmentTransformRules::KeepWorldTransform,
+																		   ChangeClassEffectFlipbook->GetTotalDuration());
+			}
+		
 		if (ChangeClassCameraShake)
 		{
 			if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
