@@ -47,11 +47,10 @@ void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedC
 		return;
 	}
 
-	if (ClassFilter && !OtherActor->IsA(ClassFilter))
+	if (ClassFilter && OtherActor->IsA(ClassFilter))
 	{
 		return;
 	}
-	
 	if (DamageData.bIsDamageRadial)
 	{
 		TArray<AActor*> IgnoreActors;
@@ -66,6 +65,7 @@ void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedC
 		UGameplayStatics::ApplyDamage(OtherActor, DamageData.BaseDamage, OwnerCharacter->GetController(),
 										this, DamageData.DamageType);
 	}
+	
 	if (ProjectileVisuals.HitSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(),ProjectileVisuals.HitSound,GetActorLocation(),GetActorRotation());
