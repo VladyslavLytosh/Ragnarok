@@ -26,6 +26,4 @@ class RAGRAROK_API IShieldBearerInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual UPaperFlipbookComponent* GetShieldFlipbookComponent() const = 0;
-
-	virtual USphereComponent* GetShieldSphereComponent() const = 0;
 };

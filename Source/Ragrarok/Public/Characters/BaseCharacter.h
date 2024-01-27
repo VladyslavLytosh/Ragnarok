@@ -51,6 +51,8 @@ public:
 	
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	void SetReceiveDamage(const bool& bNewReceiveDamage) { bReceiveDamage = bNewReceiveDamage; }
+	
 protected:
 	UPROPERTY()
 	TObjectPtr<UBaseWeaponInstance> CurrentEquippedWeapon;
@@ -69,9 +71,11 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Components")
 	TObjectPtr<UBoxComponent> HitBoxComponent;
-
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,Category="Damage")
 	TObjectPtr<USoundBase> HurtSound;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,Category="Damage")
 	TObjectPtr<USoundBase> DeathSound;
+
+	bool bReceiveDamage = true;
 };

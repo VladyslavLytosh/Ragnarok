@@ -57,7 +57,7 @@ void UShieldAbility::EndAbility()
 	{
 		return;
 	}
-	const ABaseCharacter* Character = Cast<ABaseCharacter>(AvatarPawn);
+	ABaseCharacter* Character = Cast<ABaseCharacter>(AvatarPawn);
 	if (!Character)
 	{
 		return;
@@ -77,13 +77,7 @@ void UShieldAbility::EndAbility()
 	PlayCameraShake(ShieldVisualInfo.ShieldDownCameraShake);
 	PlaySoundAtPawnLocation(ShieldVisualInfo.ShieldDownSound);
 
-	if (USphereComponent* ShieldSphereComponent = GetShieldSphere(Character))
-	{
-		ShieldSphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		ShieldSphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
-		
-		ShieldSphereComponent->OnComponentBeginOverlap.RemoveAll(this);
-	}
+	Character->SetReceiveDamage(true);
 	GetWorld()->GetTimerManager().ClearTimer(EndAbilityTimer);
 }
 
@@ -95,20 +89,14 @@ void UShieldAbility::OnShieldUpAnimEnded(bool bCompleted)
 		EndAbility();	
 		return;
 	}
-	const ABaseCharacter* Character = Cast<ABaseCharacter>(AvatarPawn);
+	ABaseCharacter* Character = Cast<ABaseCharacter>(AvatarPawn);
 	if (!Character)
 	{
 		EndAbility();	
 		return;
 	}
-
-	if (USphereComponent* ShieldSphereComponent = GetShieldSphere(Character))
-	{
-		ShieldSphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		ShieldSphereComponent->SetCollisionResponseToAllChannels(ECR_Block);
-		
-		ShieldSphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnShieldBeginOverlap);
-	}
+	
+	Character->SetReceiveDamage(false);
 	GetWorld()->GetTimerManager().SetTimer(EndAbilityTimer, this, &ThisClass::EndAbility, MaxAbilityLength);
 	
 	if (GetShieldFlipbook(Character))
@@ -136,16 +124,6 @@ UPaperFlipbookComponent* UShieldAbility::GetShieldFlipbook(const APawn* Pawn) co
 	if (const IShieldBearerInterface* ShieldBearer = Cast<IShieldBearerInterface>(Pawn))
 	{
 		return ShieldBearer->GetShieldFlipbookComponent();
-	}
-	
-	return nullptr;
-}
-
-USphereComponent* UShieldAbility::GetShieldSphere(const APawn* Pawn) const
-{
-	if (const IShieldBearerInterface* ShieldBearer = Cast<IShieldBearerInterface>(Pawn))
-	{
-		return ShieldBearer->GetShieldSphereComponent();
 	}
 	
 	return nullptr;
