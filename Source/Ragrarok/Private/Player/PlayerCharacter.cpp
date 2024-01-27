@@ -6,7 +6,6 @@
 #include "PaperFlipbookComponent.h"
 #include "Components/SphereComponent.h"
 #include "Input/RagnarokInputComponent.h"
-#include "Weapons/BaseWeaponInstance.h"
 
 APlayerCharacter::APlayerCharacter()
 {

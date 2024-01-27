@@ -9,6 +9,7 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Perception/AISense_Hearing.h"
 #include "Subsystems/SpriteEffectsManagerSubsystem.h"
 
 
@@ -39,7 +40,7 @@ void AWeaponProjectile::PostInitializeComponents()
 void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	const ABaseCharacter* OwnerCharacter = Cast<ABaseCharacter>(GetOwner());
+	ABaseCharacter* OwnerCharacter = Cast<ABaseCharacter>(GetOwner());
 	if (!OwnerCharacter || OtherActor == OwnerCharacter)
 	{
 		return;
@@ -70,7 +71,8 @@ void AWeaponProjectile::OnHitRegionBeginOverlap(UPrimitiveComponent* OverlappedC
 			PlayerController->ClientStartCameraShake(ProjectileVisuals.HitCameraShake);
 		}
 	}
-	
+	UAISense_Hearing::ReportNoiseEvent(GetWorld(),GetActorLocation(),NoiseReportData.Loudness,OwnerCharacter,NoiseReportData.NoiseRange);
+
 	SpawnProjectileHitEffect();
 	Destroy();
 }

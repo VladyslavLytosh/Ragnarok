@@ -7,6 +7,7 @@
 #include "PaperZDAnimInstance.h"
 #include "Animations/RagnarokAnimInstance.h"
 #include "Characters/BaseCharacter.h"
+#include "Perception/AISense_Hearing.h"
 #include "Weapons/ProjectileWeaponInstance.h"
 #include "Weapons/WeaponProjectile.h"
 
@@ -82,6 +83,7 @@ void UProjectile_FireAbility::WeaponFire()
 	}
 	
 	ProjectileWeaponInstance->UpdateFiringTime();
+	UAISense_Hearing::ReportNoiseEvent(GetWorld(),Character->GetActorLocation(),NoiseReportData.Loudness,Character,NoiseReportData.NoiseRange);
 }
 
 void UProjectile_FireAbility::OnFireAnimEnded(bool bCompleted)

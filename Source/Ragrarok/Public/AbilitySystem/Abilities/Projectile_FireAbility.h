@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BaseWeaponAbility.h"
+#include "RagnarokGlobals.h"
 #include "AbilitySystem/AbilityBase.h"
 #include "Projectile_FireAbility.generated.h"
 
@@ -23,6 +24,8 @@ protected:
 	UFUNCTION()
 	void OnFireAnimEnded(bool bCompleted);
 
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	FNoiseReportData NoiseReportData;
 private:
 	FTransform GetProjectileSpawnTransform(const ABaseCharacter* Character) const;
 };
