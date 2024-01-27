@@ -177,3 +177,15 @@ void UAbilitySystemComponent::TryActivateAbility(UAbilityBase* AbilityBase)
 	AbilityBase->SetAbilityInfo(AbilityInfo);
 	AbilityBase->TryActivateAbility(AbilityInfo);
 }
+
+UAbilityBase* UAbilitySystemComponent::GetFirstShouldDisplayOnUIAbility()
+{
+	for (const TPair<TSubclassOf<UAbilityBase>, UAbilityBase*>& Ability : CurrentAbilities)
+	{
+		if (Ability.Value && Ability.Value->ShouldDisplayOnUI())
+		{
+			return Ability.Value;
+		}
+	}
+	return nullptr;
+}

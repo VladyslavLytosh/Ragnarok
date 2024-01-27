@@ -27,6 +27,7 @@ void UCharacterClassComponent::BeginPlay()
 		if (CurrentCharacterClass)
 		{
 			CurrentCharacterClass->OnClassChanged(Cast<ABaseCharacter>(GetOwner()));
+			OnClassChanged.Broadcast(CurrentCharacterClass);
 		}
 	}
 }
@@ -38,6 +39,8 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 		RemovePreviousClassAbilities(Character);
 		CurrentCharacterClass = InCurrentCharacterClass;
 		CurrentCharacterClass->OnClassChanged(Character);
+
+		OnClassChanged.Broadcast(CurrentCharacterClass);
 
 		if (ChangeClassEffectFlipbook)
 		{
@@ -52,8 +55,7 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 																		   FAttachmentTransformRules::KeepWorldTransform,
 																		   ChangeClassEffectFlipbook->GetTotalDuration());
 			}
-		}
-
+		
 		if (ChangeClassCameraShake)
 		{
 			if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
