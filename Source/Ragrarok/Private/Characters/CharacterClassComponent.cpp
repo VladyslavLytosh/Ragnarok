@@ -21,6 +21,7 @@ UCharacterClassComponent::UCharacterClassComponent(const FObjectInitializer& Obj
 void UCharacterClassComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	if (!AvailableCharacterClasses.IsEmpty())
 	{
 		CurrentCharacterClass = AvailableCharacterClasses[0].GetDefaultObject();
@@ -56,16 +57,17 @@ void UCharacterClassComponent::SetCurrentCharacterClass(UCharacterClass* InCurre
 																		   ChangeClassEffectFlipbook->GetTotalDuration());
 			}
 		
-		if (ChangeClassCameraShake)
-		{
-			if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
+			if (ChangeClassCameraShake)
 			{
-				PlayerController->ClientStartCameraShake(ChangeClassCameraShake);
+				if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
+				{
+					PlayerController->ClientStartCameraShake(ChangeClassCameraShake);
+				}
 			}
-		}
-		if (ChangeClassSound)
-		{
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(),ChangeClassSound,Character->GetActorLocation(),Character->GetActorRotation());
+			if (ChangeClassSound)
+			{
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(),ChangeClassSound,Character->GetActorLocation(),Character->GetActorRotation());
+			}
 		}
 	}
 }
