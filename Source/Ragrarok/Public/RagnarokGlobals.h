@@ -19,3 +19,15 @@ struct FDeathData
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 	TArray<UMaterialInterface*> BloodDecals;
 };
+
+USTRUCT(BlueprintType)
+struct FNoiseReportData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	float Loudness;
+	
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	float NoiseRange;
+};

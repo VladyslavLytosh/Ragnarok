@@ -9,6 +9,7 @@
 #include "NiagaraComponent.h"
 #include "PaperFlipbookComponent.h"
 #include "Animations/RagnarokAnimInstance.h"
+#include "Perception/AISense_Hearing.h"
 
 void UChainLightningAbility::ActivateAbility(const FAbilityInfo& ActivationInfo)
 {
@@ -54,7 +55,8 @@ void UChainLightningAbility::StartCast()
 
 	PlayCameraShake(ChainLightningVisualInfo.StartChainCameraShake);
 	PlaySoundAtPawnLocation(ChainLightningVisualInfo.StartChainSound);
-	
+	UAISense_Hearing::ReportNoiseEvent(GetWorld(),Character->GetActorLocation(),NoiseReportData.Loudness,Character,NoiseReportData.NoiseRange);
+
 	FHitResult OutHitResult;
 	const FVector Start = Character->GetActorLocation();
 	const FVector End = Start + Character->GetActorForwardVector() * ChainLightningInfo.ChainLightningLength;

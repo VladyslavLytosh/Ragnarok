@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "RagnarokGlobals.h"
 #include "GameFramework/Actor.h"
 #include "WeaponProjectile.generated.h"
 
@@ -88,6 +89,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	FProjectileDamageData DamageData;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FNoiseReportData NoiseReportData;
 private:
 	FTransform GetProjectileHitEffectSpawnTransform() const;
 

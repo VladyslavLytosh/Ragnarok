@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "NiagaraSystem.h"
+#include "RagnarokGlobals.h"
 #include "AbilitySystem/AbilityBase.h"
 #include "ChainLightningAbility.generated.h"
 
+struct FNoiseReportData;
 class UPaperZDAnimSequence;
 
 USTRUCT(BlueprintType)
@@ -75,6 +77,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Chain Lightning Visual Info")
 	FChainLightningVisualInfo ChainLightningVisualInfo;
 
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	FNoiseReportData NoiseReportData;
+	
 	UFUNCTION()
 	void StartCast();
 
